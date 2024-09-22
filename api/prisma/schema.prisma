@@ -42,7 +42,7 @@ model Category {
 
 model Expense {
   id         String   @unique @default(uuid())
-  amount     BigInt
+  amount     Float
   note       String
   currencyId String
   categoryId String

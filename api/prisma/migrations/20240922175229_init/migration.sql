@@ -25,7 +25,7 @@ CREATE TABLE "Category" (
 -- CreateTable
 CREATE TABLE "Expense" (
     "id" TEXT NOT NULL,
-    "amount" BIGINT NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL,
     "note" TEXT NOT NULL,
     "currencyId" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL
