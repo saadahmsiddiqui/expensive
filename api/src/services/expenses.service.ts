@@ -1,16 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { Expense } from '@prisma/client';
-
-interface CreateExpenseDto {
-  data: {
-    amount: number;
-    note: string;
-    currencyId: string;
-    categoryId: string;
-    createdBy: string;
-  };
-}
+import { CreateExpenseDto } from '../interfaces/dto';
 
 @Injectable()
 export class ExpensesService {
@@ -21,5 +12,13 @@ export class ExpensesService {
       createExpenseDto
     );
     return newExpense;
+  }
+
+  async getExpenses(userId: string): Promise<Expense[]> {
+    return this.prismaService.expense.findMany({
+      where: {
+        createdBy: userId,
+      },
+    });
   }
 }

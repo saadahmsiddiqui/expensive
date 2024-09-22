@@ -6,10 +6,11 @@ import { UsersService } from '../services/users.service';
 import { CurrenciesService } from '../services/currencies.service';
 import { CategoriesService } from '../services/categories.service';
 import { ExpensesService } from '../services/expenses.service';
+import { UsersController } from './users.controller';
 
 @Module({
   imports: [],
-  controllers: [AppController],
+  controllers: [AppController, UsersController],
   providers: [
     PrismaService,
     UsersService,

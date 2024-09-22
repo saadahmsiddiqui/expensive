@@ -1,14 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { Currency } from '@prisma/client';
-
-interface CreateCurrencyDto {
-  data: {
-    name: string;
-    symbol: string;
-    createdBy: string;
-  };
-}
+import { CreateCurrencyDto } from '../interfaces/dto';
 
 @Injectable()
 export class CurrenciesService {
