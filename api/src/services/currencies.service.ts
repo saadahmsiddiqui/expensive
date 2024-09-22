@@ -1,0 +1,33 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+import { Currency } from '@prisma/client';
+
+interface CreateCurrencyDto {
+  data: {
+    name: string;
+    symbol: string;
+    createdBy: string;
+  };
+}
+
+@Injectable()
+export class CurrenciesService {
+  constructor(private prismaService: PrismaService) {}
+
+  async createCurrency(
+    createCategoryDto: CreateCurrencyDto
+  ): Promise<Currency> {
+    const newCurrency = await this.prismaService.currency.create(
+      createCategoryDto
+    );
+    return newCurrency;
+  }
+
+  async getCurrencies(creatorId: string): Promise<Currency[]> {
+    return this.prismaService.currency.findMany({
+      where: {
+        createdBy: creatorId,
+      },
+    });
+  }
+}

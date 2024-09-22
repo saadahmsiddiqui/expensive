@@ -20,6 +20,8 @@ model User {
   lastName   String
   Categories Category[]
   Currencies Currency[]
+  createdOn  DateTime   @default(now())
+  Expenses   Expense[]
 }
 
 model Currency {
@@ -29,15 +31,17 @@ model Currency {
   createdBy String
   Creator   User      @relation(fields: [createdBy], references: [id])
   Expenses  Expense[]
+  createdOn DateTime  @default(now())
 }
 
 model Category {
-  id        String @unique @default(uuid())
-  name      String @unique
+  id        String    @unique @default(uuid())
+  name      String    @unique
   icon      String
   createdBy String
-  Creator   User   @relation(fields: [createdBy], references: [id])
+  Creator   User      @relation(fields: [createdBy], references: [id])
   Expenses  Expense[]
+  createdOn DateTime  @default(now())
 }
 
 model Expense {
@@ -48,4 +52,7 @@ model Expense {
   categoryId String
   Category   Category @relation(fields: [categoryId], references: [id])
   Currency   Currency @relation(fields: [currencyId], references: [id])
+  createdOn  DateTime @default(now())
+  createdBy  String
+  Creator    User     @relation(fields: [createdBy], references: [id])
 }
