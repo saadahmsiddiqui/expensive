@@ -1,6 +1,7 @@
 {
   "name": "@expensive/source",
   "version": "0.0.0",
+  "description": "Open Source Expense Management Application (WIP)",
   "license": "MIT",
   "scripts": {},
   "private": true,

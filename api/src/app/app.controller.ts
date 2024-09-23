@@ -4,6 +4,6 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   getData() {
-    return { version: '0.0.1' };
+    return { version: '0.0.0' };
   }
 }
