@@ -1,24 +1,38 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto } from '../interfaces/dto';
 import { Category } from '@prisma/client';
+import { AuthGuard } from '../guards/auth.guard';
+import { AuthorizedRequest } from '../services/auth.service';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
+  @UseGuards(AuthGuard)
   @Post('create')
   async createCategory(
+    @Req() request: AuthorizedRequest,
     @Body() requestBody: CreateCategoryDto
   ): Promise<Category> {
+    requestBody.data.createdBy = request.auth.userId;
     return this.categoriesService.createCategory(requestBody);
   }
 
-  @Get('by/:creatorId')
+  @UseGuards(AuthGuard)
+  @Get('my')
   async getCategoriesByCreator(
-    @Param() params: { creatorId: string }
+    @Req() request: AuthorizedRequest
   ): Promise<Category[]> {
-    return this.categoriesService.getCategories(params.creatorId);
+    return this.categoriesService.getCategories(request.auth.userId);
   }
 
   @Get(':categoryId')

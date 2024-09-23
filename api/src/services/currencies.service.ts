@@ -16,11 +16,15 @@ export class CurrenciesService {
     return newCurrency;
   }
 
-  async getCurrencies(creatorId: string): Promise<Currency[]> {
+  async getCurrenciesByCreator(creatorId: string): Promise<Currency[]> {
     return this.prismaService.currency.findMany({
       where: {
         createdBy: creatorId,
       },
     });
+  }
+
+  async getCurrencies(): Promise<Currency[]> {
+    return this.prismaService.currency.findMany();
   }
 }

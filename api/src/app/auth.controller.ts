@@ -1,7 +1,7 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from '../interfaces/dto';
+import { AuthService } from '../services/auth.service';
 
 interface LoginDto {
   data: {
@@ -12,19 +12,20 @@ interface LoginDto {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() requestBody: LoginDto): Promise<boolean> {
+  async login(@Body() requestBody: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = requestBody.data;
-    const isValid = await this.usersService.authenticate(email, password);
-    if (!isValid) throw new HttpException('Invalid username or password', 400);
+    const token = await this.authService.login(email, password);
+    if (token === null)
+      throw new HttpException('Invalid username or password', 400);
 
-    return true;
+    return { accessToken: token };
   }
 
   @Post('register')
   async createUser(@Body() requestBody: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(requestBody);
+    return this.authService.createUser(requestBody);
   }
 }

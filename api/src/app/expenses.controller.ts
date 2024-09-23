@@ -1,21 +1,37 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ExpensesService } from '../services/expenses.service';
 import { Expense } from '@prisma/client';
 import { CreateExpenseDto } from '../interfaces/dto';
+import { AuthorizedRequest } from '../services/auth.service';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('expenses')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
+  @UseGuards(AuthGuard)
   @Post('create')
-  async createExpense(@Body() requestBody: CreateExpenseDto): Promise<Expense> {
+  async createExpense(
+    @Req() request: AuthorizedRequest,
+    @Body() requestBody: CreateExpenseDto
+  ): Promise<Expense> {
+    requestBody.data.createdBy = request.auth.userId;
     return this.expensesService.createExpense(requestBody);
   }
 
-  @Get('by/:creatorId')
+  @UseGuards(AuthGuard)
+  @Get('my')
   async getExpensesByCreator(
-    @Param() params: { creatorId: string }
+    @Req() request: AuthorizedRequest
   ): Promise<Expense[]> {
-    return this.expensesService.getExpenses(params.creatorId);
+    return this.expensesService.getExpenses(request.auth.userId);
   }
 }

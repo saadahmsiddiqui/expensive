@@ -12,9 +12,18 @@ import { CurrenciesController } from './currencies.controller';
 import { ExpensesController } from './expenses.controller';
 import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth.controller';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthService } from '../services/auth.service';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [
+    ConfigModule.forRoot(),
+    JwtModule.register({
+      global: true,
+      secret: 'S@adJhk123',
+      signOptions: { expiresIn: '60m' },
+    }),
+  ],
   controllers: [
     AppController,
     AuthController,
@@ -25,6 +34,7 @@ import { AuthController } from './auth.controller';
   ],
   providers: [
     PrismaService,
+    AuthService,
     UsersService,
     CurrenciesService,
     CategoriesService,
