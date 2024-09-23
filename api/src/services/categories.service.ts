@@ -23,4 +23,12 @@ export class CategoriesService {
       },
     });
   }
+
+  async getCategory(categoryId: string): Promise<Category | undefined> {
+    return this.prismaService.category.findFirst({
+      where: {
+        id: categoryId,
+      },
+    });
+  }
 }
