@@ -10,11 +10,14 @@ import { UsersController } from './users.controller';
 import { CategoriesController } from './categories.controller';
 import { CurrenciesController } from './currencies.controller';
 import { ExpensesController } from './expenses.controller';
+import { ConfigModule } from '@nestjs/config';
+import { AuthController } from './auth.controller';
 
 @Module({
-  imports: [],
+  imports: [ConfigModule.forRoot()],
   controllers: [
     AppController,
+    AuthController,
     UsersController,
     CategoriesController,
     CurrenciesController,

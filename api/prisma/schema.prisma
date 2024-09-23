@@ -23,6 +23,7 @@ model User {
   Currencies Currency[]
   createdOn  DateTime   @default(now())
   Expenses   Expense[]
+  password   String
 }
 
 model Currency {
