@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ExpensesService } from '../services/expenses.service';
 import { Expense } from '@prisma/client';
 import { CreateExpenseDto } from '../interfaces/dto';

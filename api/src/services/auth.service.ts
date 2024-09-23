@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from '../interfaces/dto';
@@ -92,6 +92,7 @@ export class AuthService {
     try {
       return this.jwtService.verify(token);
     } catch (error) {
+      Logger.error(error);
       throw new HttpException('Invalid or expired access token.', 401);
     }
   }
