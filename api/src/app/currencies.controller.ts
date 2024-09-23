@@ -26,9 +26,4 @@ export class CurrenciesController {
   ): Promise<Currency[]> {
     return this.currenciesService.getCurrenciesByCreator(request.auth.userId);
   }
-
-  @Get()
-  async getCurrencies() {
-    return this.currenciesService.getCurrencies();
-  }
 }
