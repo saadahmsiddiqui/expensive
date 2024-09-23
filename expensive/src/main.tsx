@@ -1,8 +1,13 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { createTheme, MantineProvider } from '@mantine/core';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import '@mantine/core/styles.css';
+import Login from './pages/login/login';
 
-import App from './app/app';
+const theme = createTheme({
+  /** Put your mantine theme override here */
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,7 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <MantineProvider theme={theme}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </MantineProvider>
     </BrowserRouter>
   </StrictMode>
 );
