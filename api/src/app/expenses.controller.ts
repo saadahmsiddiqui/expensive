@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ExpensesService } from '../services/expenses.service';
 import { Expense } from '@prisma/client';
 import { CreateExpenseDto } from '../interfaces/dto';
@@ -8,8 +8,8 @@ export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
   @Post('create')
-  async createExpense(createExpenseDto: CreateExpenseDto): Promise<Expense> {
-    return this.expensesService.createExpense(createExpenseDto);
+  async createExpense(@Body() requestBody: CreateExpenseDto): Promise<Expense> {
+    return this.expensesService.createExpense(requestBody);
   }
 
   @Get('by/:creatorId')

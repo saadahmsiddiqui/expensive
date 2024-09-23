@@ -19,6 +19,10 @@ export class ExpensesService {
       where: {
         createdBy: userId,
       },
+      include: {
+        Currency: true,
+        Category: true,
+      },
     });
   }
 }
