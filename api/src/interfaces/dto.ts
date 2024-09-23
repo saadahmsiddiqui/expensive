@@ -32,3 +32,13 @@ export interface CreateUserDto {
     password: string;
   };
 }
+
+export interface CreateIncomeDto {
+  data: {
+    amount: number;
+    note: string;
+    currencyId: string;
+    categoryId: string;
+    createdBy: string;
+  };
+}
