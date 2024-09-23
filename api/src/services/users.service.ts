@@ -65,6 +65,8 @@ export class UsersService {
       },
     });
 
+    if (!user) return false;
+
     const passwordHash = pbkdf2Sync(
       password,
       this.ENCRYPTION_SALT,
