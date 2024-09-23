@@ -20,8 +20,9 @@ import { AuthService } from '../services/auth.service';
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
-      secret: 'S@adJhk123',
-      signOptions: { expiresIn: '60m' },
+      signOptions: {
+        encoding: '8h',
+      },
     }),
   ],
   controllers: [

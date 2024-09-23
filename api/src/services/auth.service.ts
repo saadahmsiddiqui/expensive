@@ -17,6 +17,7 @@ export interface AuthorizedRequest extends Request {
 
 @Injectable()
 export class AuthService {
+  JWT_SIGNING_SECRET: string;
   ENCRYPTION_SALT: Buffer;
   ENCRYPTION_ITERATIONS = 100000;
   ENCRYPTION_KEY_LENGTH = 64;
@@ -35,8 +36,11 @@ export class AuthService {
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService
   ) {
+    this.JWT_SIGNING_SECRET =
+      this.configService.getOrThrow<string>('JWT_SIGNING_KEY');
+
     this.ENCRYPTION_SALT = Buffer.from(
-      this.configService.get<string>('USER_PASSWORD_ENCRYPTION_SALT'),
+      this.configService.getOrThrow<string>('USER_PASSWORD_ENCRYPTION_SALT'),
       'utf-8'
     );
   }
@@ -81,7 +85,7 @@ export class AuthService {
       userId: user.id,
     };
 
-    return this.jwtService.sign(jwtPayload);
+    return this.jwtService.sign(jwtPayload, { secret: '' });
   }
 
   validateAccessToken(token: string): TokenPayload {
