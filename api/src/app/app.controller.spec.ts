@@ -15,7 +15,7 @@ describe('AppController', () => {
   describe('getData', () => {
     it('should return "Hello API"', () => {
       const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({ version: '0.0.1' });
+      expect(appController.getData()).toEqual({ version: '0.0.0' });
     });
   });
 });
