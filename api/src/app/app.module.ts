@@ -14,6 +14,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from '../services/auth.service';
+import { IncomeController } from './income.controller';
+import { IncomeService } from '../services/income.service';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { AuthService } from '../services/auth.service';
     JwtModule.register({
       global: true,
       signOptions: {
-        encoding: '8h',
+        expiresIn: '8h',
       },
     }),
   ],
@@ -32,6 +34,7 @@ import { AuthService } from '../services/auth.service';
     CategoriesController,
     CurrenciesController,
     ExpensesController,
+    IncomeController,
   ],
   providers: [
     PrismaService,
@@ -40,6 +43,7 @@ import { AuthService } from '../services/auth.service';
     CurrenciesService,
     CategoriesService,
     ExpensesService,
+    IncomeService,
   ],
 })
 export class AppModule {}

@@ -85,12 +85,12 @@ export class AuthService {
       userId: user.id,
     };
 
-    return this.jwtService.sign(jwtPayload, { secret: '' });
+    return this.jwtService.sign(jwtPayload, { secret: this.ENCRYPTION_SALT });
   }
 
   validateAccessToken(token: string): TokenPayload {
     try {
-      return this.jwtService.verify(token);
+      return this.jwtService.verify(token, { secret: this.ENCRYPTION_SALT });
     } catch (error) {
       Logger.error(error);
       throw new HttpException('Invalid or expired access token.', 401);
