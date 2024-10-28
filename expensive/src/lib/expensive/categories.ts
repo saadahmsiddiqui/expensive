@@ -1,11 +1,11 @@
 import { BaseExpensiveApi } from './base';
+import { SecureApi } from './secureApi';
 
-export class Categories extends BaseExpensiveApi {
-  accessToken?: string;
+export class Categories extends SecureApi {
   controller: string;
 
-  constructor(baseUrl: string) {
-    super(baseUrl);
+  constructor(baseUrl: string, accessToken: string) {
+    super(baseUrl, accessToken);
     this.controller = 'categories';
   }
 

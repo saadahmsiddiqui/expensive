@@ -9,20 +9,12 @@ export class BaseExpensiveApi {
     this.baseUrl = baseUrl;
   }
 
-  storeAccessToken(accessToken: string) {
-    localStorage.setItem('accessToken', accessToken);
-  }
-
-  getAuthorizationHeader() {
-    return { Authorization: `bearer ${localStorage.getItem('accessToken')}` };
-  }
-
-  buildCall(
+  buildCall<T>(
     endpoint: string,
     method: 'GET' | 'POST',
     body: string | Buffer | null | undefined,
     headers?: Record<string, string>
-  ) {
+  ): Promise<T> {
     return fetch(endpoint, {
       body,
       method,

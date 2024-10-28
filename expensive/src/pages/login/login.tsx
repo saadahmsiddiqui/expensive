@@ -1,9 +1,14 @@
 import { Center, TextInput, Button, Box, em } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { Auth } from '../../lib/expensive';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAccessToken, useApi } from '../../context/expensiveApiContext';
 
 export function Login() {
+  const { auth } = useApi();
+  const { setAccessToken } = useAccessToken();
+  const navigate = useNavigate();
+
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -17,13 +22,12 @@ export function Login() {
   });
 
   const login = useCallback((email: string, password: string) => {
-    const auth = new Auth('http://localhost:3000/api');
-
-    auth.login(email, password).then((data) => {
+    auth!.login(email, password).then((data) => {
       const tokenKey = 'accessToken';
 
       if (tokenKey in data) {
-        auth.storeAccessToken(data[tokenKey]);
+        setAccessToken!(data[tokenKey]);
+        navigate('/home');
       }
     });
   }, []);
