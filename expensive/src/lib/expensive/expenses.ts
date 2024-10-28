@@ -1,5 +1,15 @@
 import { SecureApi } from './secureApi';
 
+export interface Expense {
+  currencyId: string;
+  categoryId: string;
+  amount: number;
+  note: string;
+  id: string;
+  createdOn: string;
+  createdBy: string;
+}
+
 export class Expenses extends SecureApi {
   controller: string;
 
@@ -22,7 +32,7 @@ export class Expenses extends SecureApi {
   }
 
   get() {
-    return super.buildCall(
+    return super.buildCall<Array<Expense>>(
       `${this.baseUrl}/${this.controller}/my`,
       'GET',
       undefined,

@@ -1,5 +1,11 @@
-import { BaseExpensiveApi } from './base';
 import { SecureApi } from './secureApi';
+
+export interface Category {
+  name: string;
+  id: string;
+  createdBy: string;
+  createdOn: string;
+}
 
 export class Categories extends SecureApi {
   controller: string;
@@ -20,7 +26,7 @@ export class Categories extends SecureApi {
   }
 
   get() {
-    return super.buildCall(
+    return super.buildCall<Array<Category>>(
       `${this.baseUrl}/${this.controller}/my`,
       'GET',
       undefined,
