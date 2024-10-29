@@ -112,7 +112,9 @@ export function Home() {
             <Button
               onClick={() => {
                 if (setAccessToken) {
+                  localStorage.removeItem('accessToken');
                   setAccessToken(null);
+                  navigate('/');
                 }
               }}
               color="red.6"
