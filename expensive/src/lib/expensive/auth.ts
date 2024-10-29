@@ -11,7 +11,7 @@ export class Auth extends BaseExpensiveApi {
   login(email: string, password: string) {
     const body = JSON.stringify({ data: { email, password } });
 
-    return super.buildCall(
+    return super.buildCall<{ accessToken?: string }>(
       `${this.baseUrl}/${this.controller}/login`,
       'POST',
       body

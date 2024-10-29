@@ -39,6 +39,11 @@ export function ExpensiveApiProvider({
   });
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) setAccessToken(accessToken);
+  }, []);
+
+  useEffect(() => {
     if (accessToken) {
       setClients({
         categories: new Categories(baseUrl, accessToken),

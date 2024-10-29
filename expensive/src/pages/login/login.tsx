@@ -23,10 +23,9 @@ export function Login() {
 
   const login = useCallback((email: string, password: string) => {
     auth!.login(email, password).then((data) => {
-      const tokenKey = 'accessToken';
-
-      if (tokenKey in data) {
-        setAccessToken!(data[tokenKey]);
+      if (data.accessToken) {
+        localStorage.setItem('accessToken', data.accessToken);
+        setAccessToken!(data.accessToken);
         navigate('/home');
       }
     });
