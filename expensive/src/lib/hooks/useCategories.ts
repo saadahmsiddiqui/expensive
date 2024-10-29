@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useApi } from '../../context/expensiveApiContext';
-import { Category } from '../expensive';
+import { useCallback, useEffect } from 'react';
+import { useApi, useExpensiveState } from '../../context/expensive';
 
 export function useCategories() {
-  const [categoriesList, setCategoriesList] = useState<Array<Category>>([]);
+  const { categoryList: categoriesList, setCategoryList } = useExpensiveState();
   const { categories } = useApi();
 
+  const refresh = useCallback(() => {
+    categories?.get().then(setCategoryList);
+  }, [categories, setCategoryList]);
+
   useEffect(() => {
-    categories?.get().then(setCategoriesList);
+    refresh();
   }, [categories]);
 
-  return categoriesList;
+  return { categoriesList, refresh };
 }

@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useApi } from '../../context/expensiveApiContext';
+import { useCallback, useEffect, useState } from 'react';
+import { useApi, useExpensiveState } from '../../context/expensive';
 import { Currency } from '../expensive/currencies';
 
 export function useCurrencies() {
-  const [currenciesList, setCurrenciesList] = useState<Array<Currency>>([]);
+  const { currencyList: currenciesList, setCurrencyList } = useExpensiveState();
   const { currencies } = useApi();
 
+  const refresh = useCallback(() => {
+    currencies?.get().then(setCurrencyList);
+  }, [currencies, setCurrencyList]);
+
   useEffect(() => {
-    currencies?.get().then(setCurrenciesList);
+    refresh();
   }, [currencies]);
 
-  return currenciesList;
+  return { currenciesList, refresh };
 }

@@ -1,6 +1,6 @@
 import { Modal, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useApi } from '../context/expensiveApiContext';
+import { useApi } from '../context/expensive';
 
 export function CreateCategoryModal({
   opened,
@@ -28,11 +28,11 @@ export function CreateCategoryModal({
     categories!
       .create(name, icon)
       .then((response) => {
-        console.log(response);
         form.reset();
       })
       .catch((err) => {
         console.log(err);
+        alert(err.message);
       })
       .finally(() => close());
   };
@@ -42,7 +42,7 @@ export function CreateCategoryModal({
       bg="var(--mantine-color-dark-6)"
       opened={opened}
       onClose={close}
-      title="Create Currency"
+      title="Create Category"
     >
       <form onSubmit={form.onSubmit(({ name }) => onSubmit(name))}>
         <TextInput

@@ -1,13 +1,17 @@
-import { Box, Button, Card, Menu, Table, Title } from '@mantine/core';
+import { Box, Button, Card, Menu, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useAccessToken } from '../../context/expensiveApiContext';
+import { useAccessToken } from '../../context/expensive';
 import { useCurrencies } from '../../lib/hooks/useCurrencies';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCategories } from '../../lib/hooks/useCategories';
 import { useExpenses } from '../../lib/hooks/useExpenses';
 import { CreateCurrencyModal } from '../../components/CreateCurrencyModal';
 import { CreateExpenseModal } from '../../components/CreateExepenseModal';
+import { CreateCategoryModal } from '../../components/CreateCategoryModal';
+import { ExpensesTable } from '../../components/ExpensesTable';
+import { CategoriesTable } from '../../components/CategoriesTable';
+import { CurrenciesTable } from '../../components/CurrenciesTable';
 
 export function Home() {
   const navigate = useNavigate();
@@ -22,51 +26,41 @@ export function Home() {
     { open: openExpenseModal, close: closeExpenseModal },
   ] = useDisclosure(false);
 
-  const { setAccessToken } = useAccessToken();
+  const [
+    openedCategoryModal,
+    { open: openCategoryModal, close: closeCategoryModal },
+  ] = useDisclosure(false);
 
-  const currenciesList = useCurrencies();
-  const categoriesList = useCategories();
-  const expensesList = useExpenses();
+  const { setAccessToken } = useAccessToken();
+  const { currenciesList, refresh: refreshCurrencies } = useCurrencies();
+  const { categoriesList, refresh: refreshCategories } = useCategories();
+  const { expensesList, refresh: refreshExpenses } = useExpenses();
+
+  const onCloseCurrencyModal = useCallback(() => {
+    refreshCurrencies();
+    closeCurrencyModal();
+  }, [refreshCurrencies, closeCurrencyModal]);
+
+  const onCloseExpenseModal = useCallback(() => {
+    refreshExpenses();
+    closeExpenseModal();
+  }, [refreshExpenses, closeExpenseModal]);
+
+  const onCloseCategoryModal = useCallback(() => {
+    refreshCategories();
+    closeCategoryModal();
+  }, [refreshCategories, closeCategoryModal]);
+
+  const logout = useCallback(() => {
+    if (setAccessToken) {
+      setAccessToken(null);
+    }
+    navigate('/');
+  }, [setAccessToken]);
 
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) navigate('/');
   }, []);
-
-  const currencySymbolsMap = useMemo(() => {
-    return currenciesList.reduce((agg, curr) => {
-      agg.set(curr.id, curr.symbol);
-      return agg;
-    }, new Map<string, string>());
-  }, [currenciesList]);
-
-  const categoriesMap = useMemo(() => {
-    return categoriesList.reduce((agg, curr) => {
-      agg.set(curr.id, curr.name);
-      return agg;
-    }, new Map<string, string>());
-  }, [categoriesList]);
-
-  const currencies = currenciesList.map((element) => (
-    <Table.Tr key={element.name}>
-      <Table.Td>{element.name}</Table.Td>
-      <Table.Td>{element.symbol}</Table.Td>
-    </Table.Tr>
-  ));
-
-  const categories = categoriesList.map((element) => (
-    <Table.Tr key={element.id}>
-      <Table.Td>{element.name}</Table.Td>
-    </Table.Tr>
-  ));
-
-  const expenses = expensesList.map((element) => (
-    <Table.Tr key={element.id}>
-      <Table.Td>{categoriesMap.get(element.categoryId) ?? '-'}</Table.Td>
-      <Table.Td>{element.amount}</Table.Td>
-      <Table.Td>{currencySymbolsMap.get(element.currencyId) ?? '-'}</Table.Td>
-      <Table.Td>{new Date(element.createdOn).toDateString()}</Table.Td>
-    </Table.Tr>
-  ));
 
   return (
     <Box
@@ -74,17 +68,21 @@ export function Home() {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        height: '100vh',
       }}
     >
       <CreateCurrencyModal
         opened={openedCurrencyModal}
-        close={closeCurrencyModal}
+        close={onCloseCurrencyModal}
+      />
+
+      <CreateCategoryModal
+        opened={openedCategoryModal}
+        close={onCloseCategoryModal}
       />
 
       <CreateExpenseModal
         opened={openedExpenseModal}
-        close={closeExpenseModal}
+        close={onCloseExpenseModal}
         currencies={currenciesList}
         categories={categoriesList}
       />
@@ -109,16 +107,7 @@ export function Home() {
           </Title>
 
           <Box>
-            <Button
-              onClick={() => {
-                if (setAccessToken) {
-                  localStorage.removeItem('accessToken');
-                  setAccessToken(null);
-                  navigate('/');
-                }
-              }}
-              color="red.6"
-            >
+            <Button onClick={logout} color="red.6">
               Logout
             </Button>
 
@@ -130,6 +119,7 @@ export function Home() {
               </Menu.Target>
 
               <Menu.Dropdown>
+                <Menu.Item onClick={openCategoryModal}>Category</Menu.Item>
                 <Menu.Item onClick={openCurrencyModal}>Currency</Menu.Item>
                 <Menu.Item onClick={openExpenseModal}>Expense</Menu.Item>
                 <Menu.Item>Income</Menu.Item>
@@ -138,44 +128,19 @@ export function Home() {
           </Box>
         </Box>
 
-        <Card shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
           <Title order={3}>Your Currencies</Title>
-          <Table>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>Symbol</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{currencies}</Table.Tbody>
-          </Table>
+          <CurrenciesTable currenciesList={currenciesList} />
         </Card>
 
         <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
           <Title order={3}>Your Categories</Title>
-          <Table>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Name</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{categories}</Table.Tbody>
-          </Table>
+          <CategoriesTable categoriesList={categoriesList} />
         </Card>
 
         <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
           <Title order={3}>Last Expenses</Title>
-          <Table>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Category</Table.Th>
-                <Table.Th>Amount</Table.Th>
-                <Table.Th>Currency</Table.Th>
-                <Table.Th>Created on</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{expenses}</Table.Tbody>
-          </Table>
+          <ExpensesTable expensesList={expensesList} />
         </Card>
       </Box>
     </Box>

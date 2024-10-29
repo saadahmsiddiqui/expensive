@@ -1,6 +1,6 @@
 import { Modal, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useApi } from '../context/expensiveApiContext';
+import { useApi } from '../context/expensive';
 
 export function CreateCurrencyModal({
   opened,

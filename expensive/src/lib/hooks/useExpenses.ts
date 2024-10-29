@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useApi } from '../../context/expensiveApiContext';
-import { Expense } from '../expensive/expenses';
+import { useCallback, useEffect } from 'react';
+import { useApi, useExpensiveState } from '../../context/expensive';
 
 export function useExpenses() {
-  const [expensesList, setExpensesList] = useState<Array<Expense>>([]);
+  const { expenseList: expensesList, setExpenseList } = useExpensiveState();
   const { expenses } = useApi();
 
+  const refresh = useCallback(() => {
+    expenses?.get().then(setExpenseList);
+  }, [expenses, setExpenseList]);
+
   useEffect(() => {
-    expenses?.get().then(setExpensesList);
+    expenses?.get().then(setExpenseList);
   }, [expenses]);
 
-  return expensesList;
+  return { expensesList, refresh };
 }

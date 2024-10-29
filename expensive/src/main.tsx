@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '@mantine/core/styles.css';
 import Login from './pages/login/login';
 import Home from './pages/home/home';
-import { ExpensiveApiProvider } from './context/expensiveApiContext';
+import { ExpensiveApiProvider } from './context/expensive';
 
 const theme = createTheme({
   /** Put your mantine theme override here */

@@ -5,7 +5,7 @@ import { useApi } from '../context/expensive';
 import { Currency } from '../lib/expensive/currencies';
 import { Category } from '../lib/expensive';
 
-export function CreateExpenseModal({
+export function CreateIncomeModal({
   opened,
   currencies,
   categories,
@@ -56,7 +56,7 @@ export function CreateExpenseModal({
       bg="var(--mantine-color-dark-6)"
       opened={opened}
       onClose={close}
-      title="Create Expense"
+      title="Create Income"
     >
       <form
         onSubmit={form.onSubmit(({ category, currency, amount, note }) =>
