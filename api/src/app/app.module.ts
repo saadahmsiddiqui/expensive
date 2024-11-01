@@ -16,6 +16,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from '../services/auth.service';
 import { IncomeController } from './income.controller';
 import { IncomeService } from '../services/income.service';
+import { BalanceService } from '../services/balance.service';
+import { BalanceController } from './balance.controller';
 
 @Module({
   imports: [
@@ -35,6 +37,7 @@ import { IncomeService } from '../services/income.service';
     CurrenciesController,
     ExpensesController,
     IncomeController,
+    BalanceController,
   ],
   providers: [
     PrismaService,
@@ -44,6 +47,7 @@ import { IncomeService } from '../services/income.service';
     CategoriesService,
     ExpensesService,
     IncomeService,
+    BalanceService,
   ],
 })
 export class AppModule {}
