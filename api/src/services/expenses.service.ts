@@ -25,4 +25,17 @@ export class ExpensesService {
       },
     });
   }
+
+  async getTopExpenses(userId: string): Promise<Expense[]> {
+    return this.prismaService.expense.findMany({
+      where: {
+        createdBy: userId,
+      },
+      orderBy: {
+        amount: 'desc',
+        createdOn: 'desc',
+      },
+      take: 5,
+    });
+  }
 }

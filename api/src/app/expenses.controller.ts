@@ -26,4 +26,10 @@ export class ExpensesController {
   ): Promise<Expense[]> {
     return this.expensesService.getExpenses(request.auth.userId);
   }
+
+  @UseGuards(AuthGuard)
+  @Get('top')
+  async getTopExpenses(@Req() request: AuthorizedRequest) {
+    return this.expensesService.getTopExpenses(request.auth.userId);
+  }
 }
