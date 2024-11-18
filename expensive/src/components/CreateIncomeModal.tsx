@@ -31,7 +31,7 @@ export function CreateIncomeModal({
       amount: (value) => value === 0,
       category: (value) => !categories.map((c) => c.name).includes(value),
       currency: (value) => !currencies.map((c) => c.name).includes(value),
-      note: (value) => false,
+      note: (_value) => false,
     },
   });
 

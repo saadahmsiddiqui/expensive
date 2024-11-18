@@ -12,6 +12,9 @@ import { CreateCategoryModal } from '../../components/CreateCategoryModal';
 import { ExpensesTable } from '../../components/ExpensesTable';
 import { CategoriesTable } from '../../components/CategoriesTable';
 import { CurrenciesTable } from '../../components/CurrenciesTable';
+import { IncomeTable } from '../../components/IncomeTable';
+import { useIncome } from '../../lib/hooks/useIncome';
+import { CreateIncomeModal } from '../../components/CreateIncomeModal';
 
 export function Home() {
   const navigate = useNavigate();
@@ -31,10 +34,17 @@ export function Home() {
     { open: openCategoryModal, close: closeCategoryModal },
   ] = useDisclosure(false);
 
+  const [
+    openedIncomeModal,
+    { open: openIncomeModal, close: closeIncomeModal },
+  ] = useDisclosure(false);
+
+
   const { setAccessToken } = useAccessToken();
   const { currenciesList, refresh: refreshCurrencies } = useCurrencies();
   const { categoriesList, refresh: refreshCategories } = useCategories();
   const { expensesList, refresh: refreshExpenses } = useExpenses();
+  const { incomeList, refresh: refreshIncome } = useIncome();
 
   const onCloseCurrencyModal = useCallback(() => {
     refreshCurrencies();
@@ -50,6 +60,11 @@ export function Home() {
     refreshCategories();
     closeCategoryModal();
   }, [refreshCategories, closeCategoryModal]);
+
+  const onCloseIncomeModal = useCallback(() => {
+    refreshIncome();
+    closeIncomeModal();
+  }, [refreshIncome, closeIncomeModal]);
 
   const logout = useCallback(() => {
     if (setAccessToken) {
@@ -83,6 +98,13 @@ export function Home() {
       <CreateExpenseModal
         opened={openedExpenseModal}
         close={onCloseExpenseModal}
+        currencies={currenciesList}
+        categories={categoriesList}
+      />
+
+      <CreateIncomeModal
+        opened={openedIncomeModal}
+        close={onCloseIncomeModal}
         currencies={currenciesList}
         categories={categoriesList}
       />
@@ -122,7 +144,7 @@ export function Home() {
                 <Menu.Item onClick={openCategoryModal}>Category</Menu.Item>
                 <Menu.Item onClick={openCurrencyModal}>Currency</Menu.Item>
                 <Menu.Item onClick={openExpenseModal}>Expense</Menu.Item>
-                <Menu.Item>Income</Menu.Item>
+                <Menu.Item onClick={openIncomeModal}>Income</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Box>
@@ -139,9 +161,15 @@ export function Home() {
         </Card>
 
         <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
-          <Title order={3}>Last Expenses</Title>
-          <ExpensesTable expensesList={expensesList} />
+          <Title order={3}>last expenses</Title>
+          <ExpensesTable expensesList={expensesList} currencies={currenciesList} categories={categoriesList} />
         </Card>
+
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+          <Title order={3}>Recent Income</Title>
+          <IncomeTable incomeList={incomeList} currencies={currenciesList} categories={categoriesList} />
+        </Card>
+
       </Box>
     </Box>
   );

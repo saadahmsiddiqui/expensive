@@ -17,13 +17,13 @@ export class BalanceService {
     let currencyIds = new Set<string>();
     let balances = new Map<string, number>();
 
-    let expensesMap = expenses.reduce((agg, curr) => {
+    let expensesMap = expenses.reduce((agg: Map<string, number>, curr: { id: string, sum: number }) => {
       agg.set(curr.id, curr.sum);
       currencyIds.add(curr.id);
       return agg;
     }, new Map());
 
-    let incomeMap = income.reduce((agg, curr) => {
+    let incomeMap = income.reduce((agg: Map<string, number>, curr: { id: string, sum: number }) => {
       agg.set(curr.id, curr.sum);
       return agg;
     }, new Map());

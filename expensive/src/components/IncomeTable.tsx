@@ -1,10 +1,10 @@
 import { Table } from '@mantine/core';
-import { Expense } from '../lib/expensive/expenses';
+import { Income } from '../lib/expensive/income';
 import { Currency } from '../lib/expensive/currencies';
 import { useMemo } from 'react';
 import { Category } from '../lib/expensive';
 
-export function ExpensesTable({ expensesList, currencies, categories }: { expensesList: Expense[]; currencies: Currency[]; categories: Category[] }) {
+export function IncomeTable({ incomeList, currencies, categories }: { incomeList: Income[]; currencies: Currency[]; categories: Category[] }) {
 
   const categoriesMap = useMemo(() => {
     return categories.reduce((agg, curr) => {
@@ -21,12 +21,12 @@ export function ExpensesTable({ expensesList, currencies, categories }: { expens
     }, new Map<string, string>());
   }, [currencies]);
 
-  const tableData = expensesList.map((expense) => (
-    <Table.Tr key={expense.id}>
-      <Table.Td>{categoriesMap.get(expense.categoryId)}</Table.Td>
-      <Table.Td>{expense.amount}</Table.Td>
-      <Table.Td>{currenciesMap.get(expense.currencyId)}</Table.Td>
-      <Table.Td>{new Date(expense.createdOn).toDateString()}</Table.Td>
+  const tableData = incomeList.map((income) => (
+    <Table.Tr key={income.id}>
+      <Table.Td>{categoriesMap.get(income.categoryId)}</Table.Td>
+      <Table.Td>{income.amount}</Table.Td>
+      <Table.Td>{currenciesMap.get(income.currencyId)}</Table.Td>
+      <Table.Td>{new Date(income.createdOn).toDateString()}</Table.Td>
     </Table.Tr>
   ));
 

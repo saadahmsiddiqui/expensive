@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
         authorization: string;
       };
       const authToken = authorization.replace(/bearer/gim, '').trim();
-      const resp = await this.authService.validateAccessToken(authToken);
+      const resp = this.authService.validateAccessToken(authToken);
       request.auth = resp;
       return true;
     } catch (error) {
