@@ -1,0 +1,20 @@
+{
+  "name": "@expensive/app",
+  "dependencies": {
+    "@mantine/core": "^7.14.1",
+    "@mantine/form": "^7.14.1",
+    "@mantine/hooks": "^7.14.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.3.3",
+    "postcss": "^8.4.49",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "vite": "^5.4.11"
+  }
+}

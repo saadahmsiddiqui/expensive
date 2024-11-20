@@ -1,5 +1,5 @@
 {
-  "name": "expensive",
+  "name": "root",
   "packageManager": "yarn@4.3.1",
   "workspaces": [
     "apps/*"
