@@ -18,16 +18,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Cache node_modules
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.x
+          cache: 'yarn'
 
-      - run: yarn
+      - run: corepack enable
+
+      - run: yarn install
 
       - run: cd apps/api && npx prisma generate
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
-      # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
       - run: yarn nest build 
