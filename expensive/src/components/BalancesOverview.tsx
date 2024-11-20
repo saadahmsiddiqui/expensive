@@ -15,7 +15,6 @@ export function BalancesOverview({ balances }: BalancesOverviewProps) {
     )
   })
 
-
   return (
     <div>
       {overviewBoxes}
