@@ -66,6 +66,7 @@
       "dependsOn": ["^build"]
     }
   },
+  {
   "generators": {
     "@nx/react": {
       "application": {
@@ -82,5 +83,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "neverConnectToCloud": true
 }
