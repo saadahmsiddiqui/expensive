@@ -15,6 +15,8 @@ import { CurrenciesTable } from '../../components/CurrenciesTable';
 import { IncomeTable } from '../../components/IncomeTable';
 import { useIncome } from '../../lib/hooks/useIncome';
 import { CreateIncomeModal } from '../../components/CreateIncomeModal';
+import { useBalances } from '../../lib/hooks/useBalances';
+import { BalancesOverview } from '../../components/BalancesOverview';
 
 export function Home() {
   const navigate = useNavigate();
@@ -45,6 +47,7 @@ export function Home() {
   const { categoriesList, refresh: refreshCategories } = useCategories();
   const { expensesList, refresh: refreshExpenses } = useExpenses();
   const { incomeList, refresh: refreshIncome } = useIncome();
+  const { balances } = useBalances();
 
   const onCloseCurrencyModal = useCallback(() => {
     refreshCurrencies();
@@ -149,6 +152,10 @@ export function Home() {
             </Menu>
           </Box>
         </Box>
+
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+          <BalancesOverview balances={balances} />
+        </Card>
 
         <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
           <Title order={3}>Your Currencies</Title>

@@ -94,7 +94,7 @@ export function CreateIncomeModal({
         <TextInput
           key={form.key('note')}
           label="Note"
-          placeholder="e.g Payment for dinner"
+          placeholder="e.g Salary"
           {...form.getInputProps('note')}
         ></TextInput>
 

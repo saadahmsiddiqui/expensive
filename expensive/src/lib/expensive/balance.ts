@@ -1,4 +1,9 @@
+import { Currency } from '../expensive/currencies';
 import { SecureApi } from './secureApi';
+
+export interface CurrencyBalance extends Currency {
+  balance: number;
+}
 
 export class Balance extends SecureApi {
   controller: string;
@@ -9,7 +14,7 @@ export class Balance extends SecureApi {
   }
 
   get() {
-    return super.buildCall<Array<[string, number]>>(
+    return super.buildCall<Array<CurrencyBalance>>(
       `${this.baseUrl}/${this.controller}/my`,
       'GET',
       undefined,

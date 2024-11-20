@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <ExpensiveApiProvider baseUrl="http://localhost:3000/api">
+      <ExpensiveApiProvider baseUrl="http://localhost:4000/api">
         <MantineProvider theme={theme}>
           <Routes>
             <Route path="/" element={<Login />} />
