@@ -1,4 +1,4 @@
-name: Build API
+name: Build App
 
 on:
   push:
@@ -28,6 +28,4 @@ jobs:
 
       - run: yarn install
 
-      - run: cd apps/api && npx prisma generate
-
-      - run: yarn workspace @expensive/api build 
+      - run: yarn workspace @expensive/app build 
