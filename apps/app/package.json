@@ -1,5 +1,8 @@
 {
   "name": "@expensive/app",
+  "scripts": {
+    "build": "yarn vite build"
+  },
   "dependencies": {
     "@mantine/core": "^7.14.1",
     "@mantine/form": "^7.14.1",
