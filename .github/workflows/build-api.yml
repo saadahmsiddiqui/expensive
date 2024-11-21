@@ -30,4 +30,4 @@ jobs:
 
       - run: cd apps/api && npx prisma generate
 
-      - run: yarn nest build 
+      - run: yarn workspace @expensive/api build 
