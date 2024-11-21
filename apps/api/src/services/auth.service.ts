@@ -34,14 +34,14 @@ export class AuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly prismaService: PrismaService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) {
     this.JWT_SIGNING_SECRET =
       this.configService.getOrThrow<string>('JWT_SIGNING_KEY');
 
     this.ENCRYPTION_SALT = Buffer.from(
       this.configService.getOrThrow<string>('USER_PASSWORD_ENCRYPTION_SALT'),
-      'utf-8'
+      'utf-8',
     );
   }
 
@@ -51,7 +51,7 @@ export class AuthService {
       this.ENCRYPTION_SALT,
       this.ENCRYPTION_ITERATIONS,
       this.ENCRYPTION_KEY_LENGTH,
-      this.HASING_ALGORITHM
+      this.HASING_ALGORITHM,
     );
 
     createUserDto.data.password = hashedPassword.toString('hex');
@@ -73,7 +73,7 @@ export class AuthService {
       this.ENCRYPTION_SALT,
       this.ENCRYPTION_ITERATIONS,
       this.ENCRYPTION_KEY_LENGTH,
-      this.HASING_ALGORITHM
+      this.HASING_ALGORITHM,
     ).toString('hex');
 
     if (user.password !== passwordHash) {

@@ -8,11 +8,10 @@ export class CurrenciesService {
   constructor(private prismaService: PrismaService) {}
 
   async createCurrency(
-    createCategoryDto: CreateCurrencyDto
+    createCategoryDto: CreateCurrencyDto,
   ): Promise<Currency> {
-    const newCurrency = await this.prismaService.currency.create(
-      createCategoryDto
-    );
+    const newCurrency =
+      await this.prismaService.currency.create(createCategoryDto);
     return newCurrency;
   }
 

@@ -8,11 +8,10 @@ export class CategoriesService {
   constructor(private prismaService: PrismaService) {}
 
   async createCategory(
-    createCategoryDto: CreateCategoryDto
+    createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
-    const newCategory = await this.prismaService.category.create(
-      createCategoryDto
-    );
+    const newCategory =
+      await this.prismaService.category.create(createCategoryDto);
     return newCategory;
   }
 

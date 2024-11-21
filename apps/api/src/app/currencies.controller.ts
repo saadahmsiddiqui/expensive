@@ -13,7 +13,7 @@ export class CurrenciesController {
   @Post('create')
   async createCurrency(
     @Req() request: AuthorizedRequest,
-    @Body() requestBody: CreateCurrencyDto
+    @Body() requestBody: CreateCurrencyDto,
   ): Promise<Currency> {
     requestBody.data.createdBy = request.auth.userId;
     return this.currenciesService.createCurrency(requestBody);
@@ -22,7 +22,7 @@ export class CurrenciesController {
   @UseGuards(AuthGuard)
   @Get('my')
   async getCurrenciesByCreator(
-    @Req() request: AuthorizedRequest
+    @Req() request: AuthorizedRequest,
   ): Promise<Currency[]> {
     return this.currenciesService.getCurrenciesByCreator(request.auth.userId);
   }

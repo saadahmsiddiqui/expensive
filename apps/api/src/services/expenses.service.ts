@@ -8,9 +8,8 @@ export class ExpensesService {
   constructor(private prismaService: PrismaService) {}
 
   async createExpense(createExpenseDto: CreateExpenseDto): Promise<Expense> {
-    const newExpense = await this.prismaService.expense.create(
-      createExpenseDto
-    );
+    const newExpense =
+      await this.prismaService.expense.create(createExpenseDto);
     return newExpense;
   }
 

@@ -13,7 +13,7 @@ export class ExpensesController {
   @Post('create')
   async createExpense(
     @Req() request: AuthorizedRequest,
-    @Body() requestBody: CreateExpenseDto
+    @Body() requestBody: CreateExpenseDto,
   ): Promise<Expense> {
     requestBody.data.createdBy = request.auth.userId;
     return this.expensesService.createExpense(requestBody);
@@ -22,7 +22,7 @@ export class ExpensesController {
   @UseGuards(AuthGuard)
   @Get('my')
   async getExpensesByCreator(
-    @Req() request: AuthorizedRequest
+    @Req() request: AuthorizedRequest,
   ): Promise<Expense[]> {
     return this.expensesService.getExpenses(request.auth.userId);
   }

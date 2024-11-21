@@ -13,7 +13,7 @@ export class IncomeController {
   @Post('create')
   async createIncome(
     @Req() request: AuthorizedRequest,
-    @Body() requestBody: CreateExpenseDto
+    @Body() requestBody: CreateExpenseDto,
   ): Promise<Income> {
     requestBody.data.createdBy = request.auth.userId;
     return this.incomeService.createIncome(requestBody);
@@ -22,7 +22,7 @@ export class IncomeController {
   @UseGuards(AuthGuard)
   @Get('my')
   async getExpensesByCreator(
-    @Req() request: AuthorizedRequest
+    @Req() request: AuthorizedRequest,
   ): Promise<Income[]> {
     return this.incomeService.getIncome(request.auth.userId);
   }

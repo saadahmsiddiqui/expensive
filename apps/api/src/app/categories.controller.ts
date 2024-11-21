@@ -21,7 +21,7 @@ export class CategoriesController {
   @Post('create')
   async createCategory(
     @Req() request: AuthorizedRequest,
-    @Body() requestBody: CreateCategoryDto
+    @Body() requestBody: CreateCategoryDto,
   ): Promise<Category> {
     requestBody.data.createdBy = request.auth.userId;
     return this.categoriesService.createCategory(requestBody);
@@ -30,14 +30,14 @@ export class CategoriesController {
   @UseGuards(AuthGuard)
   @Get('my')
   async getCategoriesByCreator(
-    @Req() request: AuthorizedRequest
+    @Req() request: AuthorizedRequest,
   ): Promise<Category[]> {
     return this.categoriesService.getCategories(request.auth.userId);
   }
 
   @Get(':categoryId')
   async getCategory(
-    @Param() params: { categoryId: string }
+    @Param() params: { categoryId: string },
   ): Promise<Category | undefined> {
     return this.categoriesService.getCategory(params.categoryId);
   }
