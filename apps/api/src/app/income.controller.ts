@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { Income } from '@prisma/client';
+import { Records } from '@prisma/client';
 import { CreateExpenseDto } from '../interfaces/dto';
 import { AuthorizedRequest } from '../services/auth.service';
 import { AuthGuard } from '../guards/auth.guard';
@@ -14,7 +14,7 @@ export class IncomeController {
   async createIncome(
     @Req() request: AuthorizedRequest,
     @Body() requestBody: CreateExpenseDto,
-  ): Promise<Income> {
+  ): Promise<Records> {
     requestBody.data.createdBy = request.auth.userId;
     return this.incomeService.createIncome(requestBody);
   }
@@ -23,7 +23,7 @@ export class IncomeController {
   @Get('my')
   async getExpensesByCreator(
     @Req() request: AuthorizedRequest,
-  ): Promise<Income[]> {
+  ): Promise<Records[]> {
     return this.incomeService.getIncome(request.auth.userId);
   }
 }

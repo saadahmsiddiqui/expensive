@@ -1,3 +1,5 @@
+import { RecordType } from '@prisma/client';
+
 export interface CreateCategoryDto {
   data: {
     name: string;
@@ -21,6 +23,7 @@ export interface CreateExpenseDto {
     currencyId: string;
     categoryId: string;
     createdBy: string;
+    recordType: RecordType;
   };
 }
 
@@ -40,5 +43,6 @@ export interface CreateIncomeDto {
     currencyId: string;
     categoryId: string;
     createdBy: string;
+    recordType: RecordType;
   };
 }

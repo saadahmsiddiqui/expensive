@@ -21,8 +21,7 @@ model User {
   firstName  String
   lastName   String
   password   String
-  Income     Income[]
-  Expenses   Expense[]
+  records    Records[]
   Currencies Currency[]
   Categories Category[]
 }
@@ -34,8 +33,7 @@ model Currency {
   name      String
   symbol    String    @unique
   createdBy String
-  Expenses  Expense[]
-  Income    Income[]
+  records Records[]
 }
 
 model Category {
@@ -45,16 +43,16 @@ model Category {
   name      String    @unique
   icon      String
   createdBy String
-  Expenses  Expense[]
-  Income    Income[]
+  records Records[]
 }
 
-model Expense {
+model Records {
   id         String   @unique @default(uuid())
   Category   Category @relation(fields: [categoryId], references: [id])
   Currency   Currency @relation(fields: [currencyId], references: [id])
   Creator    User     @relation(fields: [createdBy], references: [id])
   createdOn  DateTime @default(now())
+  recordType RecordType
   amount     Float
   note       String
   currencyId String
@@ -62,15 +60,7 @@ model Expense {
   createdBy  String
 }
 
-model Income {
-  id         String   @unique @default(uuid())
-  Category   Category @relation(fields: [categoryId], references: [id])
-  Currency   Currency @relation(fields: [currencyId], references: [id])
-  Creator    User     @relation(fields: [createdBy], references: [id])
-  createdOn  DateTime @default(now())
-  amount     Float
-  note       String
-  currencyId String
-  categoryId String
-  createdBy  String
+enum RecordType {
+  Expense
+  Income
 }

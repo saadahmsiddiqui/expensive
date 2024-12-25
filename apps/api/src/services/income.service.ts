@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Income } from '@prisma/client';
+import { Records } from '@prisma/client';
 import { CreateIncomeDto } from '../interfaces/dto';
 
 @Injectable()
 export class IncomeService {
   constructor(private prismaService: PrismaService) {}
 
-  async getIncome(userId: string): Promise<Income[]> {
-    return this.prismaService.income.findMany({
+  async getIncome(userId: string): Promise<Records[]> {
+    return this.prismaService.records.findMany({
       where: {
         createdBy: userId,
       },
@@ -19,8 +19,8 @@ export class IncomeService {
     });
   }
 
-  async createIncome(createIncomeDto: CreateIncomeDto): Promise<Income> {
-    const newIncome = await this.prismaService.income.create(createIncomeDto);
+  async createIncome(createIncomeDto: CreateIncomeDto): Promise<Records> {
+    const newIncome = await this.prismaService.records.create(createIncomeDto);
     return newIncome;
   }
 }

@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Expense } from '@prisma/client';
+import { Records } from '@prisma/client';
 import { CreateExpenseDto } from '../interfaces/dto';
 
 @Injectable()
 export class ExpensesService {
   constructor(private prismaService: PrismaService) {}
 
-  async createExpense(createExpenseDto: CreateExpenseDto): Promise<Expense> {
+  async createExpense(createExpenseDto: CreateExpenseDto): Promise<Records> {
     const newExpense =
-      await this.prismaService.expense.create(createExpenseDto);
+      await this.prismaService.records.create(createExpenseDto);
     return newExpense;
   }
 
-  async getExpenses(userId: string): Promise<Expense[]> {
-    return this.prismaService.expense.findMany({
+  async getExpenses(userId: string): Promise<Records[]> {
+    return this.prismaService.records.findMany({
       where: {
         createdBy: userId,
       },
@@ -25,8 +25,8 @@ export class ExpensesService {
     });
   }
 
-  async getTopExpenses(userId: string): Promise<Expense[]> {
-    return this.prismaService.expense.findMany({
+  async getTopExpenses(userId: string): Promise<Records[]> {
+    return this.prismaService.records.findMany({
       where: {
         createdBy: userId,
       },
