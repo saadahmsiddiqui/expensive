@@ -1,2 +1,6 @@
 .env
 server/target
+cargo.log
+
+node_modules
+.yarn
