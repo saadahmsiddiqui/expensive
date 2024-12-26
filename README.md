@@ -12,3 +12,22 @@ Expensive is a free and open source expense manager app build using MERN stack w
 - [ ] Modern and simple UI
 - [ ] Toast notifications
 - [ ] Android Support
+
+# Setup
+
+- Postgres required, or using a docker container for Postgres is easier just run:
+  ```sh
+  docker run --name expensive-db -p 5432:5432 -e POSTGRES_PASSWORD=expensive -e POSTGRES_USER=expensive -e POSTGRES_DB=expensive -d postgres
+  ```
+- Create an `env` file in `apps/api` and update with the following variables
+  ```sh
+  PORT=
+  DATABASE_URL=
+  JWT_SIGNING_KEY=""
+  USER_PASSWORD_ENCRYPTION_SALT=""
+  ```
+- You will need to run prisma generation and migration scripts
+  ```sh
+  yarn workspace @expensive/api prisma:generate
+  yarn workspace @expensive/api prisma:migrate
+  ```
