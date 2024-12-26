@@ -9,3 +9,6 @@ Expensive is a free and open source expense manager app build using MERN stack w
 - [ ] Statistics and reports
 - [ ] Loans and Debts
 - [ ] Crypto Wallet Integration
+- [ ] Modern and simple UI
+- [ ] Toast notifications
+- [ ] Android Support
