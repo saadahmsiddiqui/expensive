@@ -11,6 +11,8 @@ export class IncomeService {
     return this.prismaService.records.findMany({
       where: {
         createdBy: userId,
+        isDeleted: false,
+        recordType: 'Income',
       },
       include: {
         Currency: true,

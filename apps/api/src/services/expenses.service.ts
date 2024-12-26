@@ -17,6 +17,8 @@ export class ExpensesService {
     return this.prismaService.records.findMany({
       where: {
         createdBy: userId,
+        isDeleted: false,
+        recordType: 'Expense',
       },
       include: {
         Currency: true,
@@ -29,12 +31,25 @@ export class ExpensesService {
     return this.prismaService.records.findMany({
       where: {
         createdBy: userId,
+        isDeleted: false,
       },
       orderBy: {
         amount: 'desc',
         createdOn: 'desc',
       },
       take: 5,
+    });
+  }
+
+  async deleteRecord(id: string) {
+    return this.prismaService.records.update({
+      where: {
+        id,
+      },
+      data: {
+        isDeleted: true,
+        deletedOn: new Date(),
+      },
     });
   }
 }

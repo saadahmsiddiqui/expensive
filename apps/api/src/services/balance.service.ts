@@ -10,11 +10,11 @@ export class BalanceService {
   async getCurrencyBalance(userId: string) {
     const expenses = await this.prismaService.$queryRaw<
       Array<{ id: string; sum: number }>
-    >`SELECT c."id", SUM(e.amount) FROM "Records" e JOIN "Currency" c ON c."id"=e."currencyId" WHERE e."createdBy"=${userId} AND e."recordType"='Expense' GROUP BY c."id"`;
+    >`SELECT c."id", SUM(e.amount) FROM "Records" e JOIN "Currency" c ON c."id"=e."currencyId" WHERE e."createdBy"=${userId} AND e."recordType"='Expense' AND e."isDeleted"=false GROUP BY c."id"`;
 
     const income = await this.prismaService.$queryRaw<
       Array<{ id: string; sum: number }>
-    >`SELECT c."id", SUM(i.amount) FROM "Records" i JOIN "Currency" c ON c."id"=i."currencyId" WHERE i."createdBy" = ${userId} AND i."recordType"='Income' GROUP BY c."id"`;
+    >`SELECT c."id", SUM(i.amount) FROM "Records" i JOIN "Currency" c ON c."id"=i."currencyId" WHERE i."createdBy" = ${userId} AND i."recordType"='Income' AND i."isDeleted"=false GROUP BY c."id"`;
 
     const currencyIds = new Set<string>();
 
@@ -33,6 +33,7 @@ export class BalanceService {
     const incomeMap = income.reduce(
       (agg: Map<string, number>, curr: { id: string; sum: number }) => {
         agg.set(curr.id, curr.sum);
+        currencyIds.add(curr.id);
         return agg;
       },
       new Map(),

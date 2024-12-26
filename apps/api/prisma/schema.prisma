@@ -58,6 +58,10 @@ model Records {
   currencyId String
   categoryId String
   createdBy  String
+  isDeleted  Boolean @default(false)
+  // seems like prisma can't have 
+  // null here instead of now() :shrug:
+  deletedOn  DateTime @default(now())
 }
 
 enum RecordType {

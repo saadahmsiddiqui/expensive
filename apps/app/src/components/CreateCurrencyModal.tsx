@@ -1,6 +1,6 @@
-import { Modal, TextInput, Button } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useApi } from '../context/expensive';
+import { Modal, TextInput, Button } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useApi } from "../context/expensive";
 
 export function CreateCurrencyModal({
   opened,
@@ -12,10 +12,10 @@ export function CreateCurrencyModal({
   const { currencies } = useApi();
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      name: '',
-      symbol: '',
+      name: "",
+      symbol: "",
     },
 
     validate: {
@@ -48,19 +48,19 @@ export function CreateCurrencyModal({
         onSubmit={form.onSubmit(({ name, symbol }) => onSubmit(name, symbol))}
       >
         <TextInput
-          key={form.key('name')}
+          key={form.key("name")}
           label="Currency name"
           placeholder="Ethereum"
-          {...form.getInputProps('name')}
+          {...form.getInputProps("name")}
         />
         <TextInput
-          key={form.key('symbol')}
-          label="Symbol"
+          key={form.key("symbol")}
+          label="Currency Symbol"
           placeholder="ETH"
-          {...form.getInputProps('symbol')}
+          {...form.getInputProps("symbol")}
         ></TextInput>
 
-        <Button color="orange.6" type="submit" mt={10} w={'100%'}>
+        <Button color="orange.6" type="submit" mt={10} w={"100%"}>
           Create
         </Button>
       </form>

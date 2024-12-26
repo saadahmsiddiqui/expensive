@@ -15,6 +15,7 @@ export class IncomeController {
     @Req() request: AuthorizedRequest,
     @Body() requestBody: CreateExpenseDto,
   ): Promise<Records> {
+    requestBody.data.amount = parseFloat(requestBody.data.amount.toString());
     requestBody.data.createdBy = request.auth.userId;
     return this.incomeService.createIncome(requestBody);
   }

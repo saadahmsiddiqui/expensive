@@ -1,10 +1,21 @@
-import { Table } from '@mantine/core';
-import { Expense } from '../lib/expensive/expenses';
-import { Currency } from '../lib/expensive/currencies';
-import { useMemo } from 'react';
-import { Category } from '../lib/expensive';
+import { Table } from "@mantine/core";
+import { Expense } from "../lib/expensive/expenses";
+import { Currency } from "../lib/expensive/currencies";
+import { useMemo } from "react";
+import { Category } from "../lib/expensive";
 
-export function ExpensesTable({ expensesList, currencies, categories }: { expensesList: Expense[]; currencies: Currency[]; categories: Category[] }) {
+export function ExpensesTable({
+  expensesList,
+  currencies,
+  categories,
+}: {
+  expensesList: Expense[];
+  currencies: Currency[];
+  categories: Category[];
+}) {
+  if (expensesList.length === 0) {
+    return <h3>No Records Added</h3>;
+  }
 
   const categoriesMap = useMemo(() => {
     return categories.reduce((agg, curr) => {
@@ -12,7 +23,6 @@ export function ExpensesTable({ expensesList, currencies, categories }: { expens
       return agg;
     }, new Map<string, string>());
   }, [categories]);
-
 
   const currenciesMap = useMemo(() => {
     return currencies.reduce((agg, curr) => {

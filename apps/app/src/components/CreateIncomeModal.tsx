@@ -1,9 +1,9 @@
-import { Button, NumberInput, Select, TextInput } from '@mantine/core';
-import { Modal } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useApi } from '../context/expensive';
-import { Currency } from '../lib/expensive/currencies';
-import { Category } from '../lib/expensive';
+import { Button, NumberInput, Select, TextInput } from "@mantine/core";
+import { Modal } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useApi } from "../context/expensive";
+import { Currency } from "../lib/expensive/currencies";
+import { Category } from "../lib/expensive";
 
 export function CreateIncomeModal({
   opened,
@@ -16,15 +16,15 @@ export function CreateIncomeModal({
   currencies: Currency[];
   categories: Category[];
 }) {
-  const { expenses } = useApi();
+  const { income } = useApi();
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
       amount: 0,
-      category: '',
-      currency: '',
-      note: '',
+      category: "",
+      currency: "",
+      note: "",
     },
 
     validate: {
@@ -44,7 +44,7 @@ export function CreateIncomeModal({
     const currencyId = currencies.find((c) => c.name === currency)?.id;
     const categoryId = categories.find((c) => c.name === category)?.id;
 
-    expenses
+    income
       ?.create(amount, note, currencyId!, categoryId!)
       .then(console.log)
       .catch(console.log)
@@ -88,17 +88,17 @@ export function CreateIncomeModal({
           description="Enter amount"
           value={form.getValues().amount}
           placeholder="e.g 1.23"
-          {...form.getInputProps('amount')}
+          {...form.getInputProps("amount")}
         />
 
         <TextInput
-          key={form.key('note')}
+          key={form.key("note")}
           label="Note"
           placeholder="e.g Salary"
-          {...form.getInputProps('note')}
+          {...form.getInputProps("note")}
         ></TextInput>
 
-        <Button color="orange.6" type="submit" mt={10} w={'100%'}>
+        <Button color="orange.6" type="submit" mt={10} w={"100%"}>
           Create
         </Button>
       </form>

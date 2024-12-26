@@ -1,11 +1,15 @@
-import { Table } from '@mantine/core';
-import { Currency } from '../lib/expensive/currencies';
+import { Table } from "@mantine/core";
+import { Currency } from "../lib/expensive/currencies";
 
 export function CurrenciesTable({
   currenciesList,
 }: {
   currenciesList: Currency[];
 }) {
+  if (currenciesList.length === 0) {
+    return <h3>No Records Added</h3>;
+  }
+
   const tableData = currenciesList.map((element) => (
     <Table.Tr key={element.name}>
       <Table.Td>{element.name}</Table.Td>

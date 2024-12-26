@@ -1,22 +1,22 @@
-import { Box, Button, Card, Menu, Title } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useAccessToken } from '../../context/expensive';
-import { useCurrencies } from '../../lib/hooks/useCurrencies';
-import { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCategories } from '../../lib/hooks/useCategories';
-import { useExpenses } from '../../lib/hooks/useExpenses';
-import { CreateCurrencyModal } from '../../components/CreateCurrencyModal';
-import { CreateExpenseModal } from '../../components/CreateExepenseModal';
-import { CreateCategoryModal } from '../../components/CreateCategoryModal';
-import { ExpensesTable } from '../../components/ExpensesTable';
-import { CategoriesTable } from '../../components/CategoriesTable';
-import { CurrenciesTable } from '../../components/CurrenciesTable';
-import { IncomeTable } from '../../components/IncomeTable';
-import { useIncome } from '../../lib/hooks/useIncome';
-import { CreateIncomeModal } from '../../components/CreateIncomeModal';
-import { useBalances } from '../../lib/hooks/useBalances';
-import { BalancesOverview } from '../../components/BalancesOverview';
+import { Box, Button, Card, Menu, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useAccessToken } from "../../context/expensive";
+import { useCurrencies } from "../../lib/hooks/useCurrencies";
+import { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCategories } from "../../lib/hooks/useCategories";
+import { useExpenses } from "../../lib/hooks/useExpenses";
+import { CreateCurrencyModal } from "../../components/CreateCurrencyModal";
+import { CreateExpenseModal } from "../../components/CreateExepenseModal";
+import { CreateCategoryModal } from "../../components/CreateCategoryModal";
+import { ExpensesTable } from "../../components/ExpensesTable";
+import { CategoriesTable } from "../../components/CategoriesTable";
+import { CurrenciesTable } from "../../components/CurrenciesTable";
+import { IncomeTable } from "../../components/IncomeTable";
+import { useIncome } from "../../lib/hooks/useIncome";
+import { CreateIncomeModal } from "../../components/CreateIncomeModal";
+import { useBalances } from "../../lib/hooks/useBalances";
+import { BalancesOverview } from "../../components/BalancesOverview";
 
 export function Home() {
   const navigate = useNavigate();
@@ -40,7 +40,6 @@ export function Home() {
     openedIncomeModal,
     { open: openIncomeModal, close: closeIncomeModal },
   ] = useDisclosure(false);
-
 
   const { setAccessToken } = useAccessToken();
   const { currenciesList, refresh: refreshCurrencies } = useCurrencies();
@@ -73,19 +72,19 @@ export function Home() {
     if (setAccessToken) {
       setAccessToken(null);
     }
-    navigate('/');
+    navigate("/");
   }, [setAccessToken]);
 
   useEffect(() => {
-    if (!localStorage.getItem('accessToken')) navigate('/');
+    if (!localStorage.getItem("accessToken")) navigate("/");
   }, []);
 
   return (
     <Box
       bg="var(--mantine-color-dark-6)"
       style={{
-        display: 'flex',
-        justifyContent: 'center',
+        display: "flex",
+        justifyContent: "center",
       }}
     >
       <CreateCurrencyModal
@@ -114,20 +113,20 @@ export function Home() {
 
       <Box
         style={{
-          width: '50%',
-          display: 'flex',
-          marginTop: '1vh',
-          flexWrap: 'wrap',
+          width: "50%",
+          display: "flex",
+          marginTop: "1vh",
+          flexWrap: "wrap",
         }}
       >
         <Box
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
           }}
         >
-          <Title style={{ color: '#fff' }} order={3}>
+          <Title style={{ color: "#fff" }} order={3}>
             Expensive
           </Title>
 
@@ -153,30 +152,37 @@ export function Home() {
           </Box>
         </Box>
 
-        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={"100%"}>
           <BalancesOverview balances={balances} />
         </Card>
 
-        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={"100%"}>
           <Title order={3}>Your Currencies</Title>
           <CurrenciesTable currenciesList={currenciesList} />
         </Card>
 
-        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={"100%"}>
           <Title order={3}>Your Categories</Title>
           <CategoriesTable categoriesList={categoriesList} />
         </Card>
 
-        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
-          <Title order={3}>last expenses</Title>
-          <ExpensesTable expensesList={expensesList} currencies={currenciesList} categories={categoriesList} />
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={"100%"}>
+          <Title order={3}>Recent Expenses</Title>
+          <ExpensesTable
+            expensesList={expensesList}
+            currencies={currenciesList}
+            categories={categoriesList}
+          />
         </Card>
 
-        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={'100%'}>
+        <Card mt={5} shadow="sm" padding="lg" radius="md" withBorder w={"100%"}>
           <Title order={3}>Recent Income</Title>
-          <IncomeTable incomeList={incomeList} currencies={currenciesList} categories={categoriesList} />
+          <IncomeTable
+            incomeList={incomeList}
+            currencies={currenciesList}
+            categories={categoriesList}
+          />
         </Card>
-
       </Box>
     </Box>
   );

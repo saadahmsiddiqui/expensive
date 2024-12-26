@@ -1,6 +1,6 @@
-import { Modal, TextInput, Button } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useApi } from '../context/expensive';
+import { Modal, TextInput, Button } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useApi } from "../context/expensive";
 
 export function CreateCategoryModal({
   opened,
@@ -12,9 +12,9 @@ export function CreateCategoryModal({
   const { categories } = useApi();
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      name: '',
+      name: "",
     },
 
     validate: {
@@ -23,7 +23,7 @@ export function CreateCategoryModal({
   });
 
   // TODO: add icon support for category
-  const icon = '';
+  const icon = "";
   const onSubmit = (name: string) => {
     categories!
       .create(name, icon)
@@ -46,13 +46,13 @@ export function CreateCategoryModal({
     >
       <form onSubmit={form.onSubmit(({ name }) => onSubmit(name))}>
         <TextInput
-          key={form.key('name')}
-          label="Currency name"
+          key={form.key("name")}
+          label="Category name"
           placeholder="Ethereum"
-          {...form.getInputProps('name')}
+          {...form.getInputProps("name")}
         />
 
-        <Button color="orange.6" type="submit" mt={10} w={'100%'}>
+        <Button color="orange.6" type="submit" mt={10} w={"100%"}>
           Create
         </Button>
       </form>

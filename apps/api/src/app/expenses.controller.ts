@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ExpensesService } from '../services/expenses.service';
 import { Records } from '@prisma/client';
 import { CreateExpenseDto } from '../interfaces/dto';
@@ -31,5 +40,11 @@ export class ExpensesController {
   @Get('top')
   async getTopExpenses(@Req() request: AuthorizedRequest) {
     return this.expensesService.getTopExpenses(request.auth.userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('/:id')
+  async removeRecord(@Param('id') id: string) {
+    return this.expensesService.deleteRecord(id);
   }
 }

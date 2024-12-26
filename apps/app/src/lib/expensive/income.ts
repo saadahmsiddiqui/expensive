@@ -1,4 +1,4 @@
-import { SecureApi } from './secureApi';
+import { SecureApi } from "./secureApi";
 
 export interface Income {
   id: string;
@@ -8,6 +8,7 @@ export interface Income {
   currencyId: string;
   categoryId: string;
   createdBy: string;
+  recordType: "Income" | "Expense";
 }
 
 export class Income extends SecureApi {
@@ -15,17 +16,17 @@ export class Income extends SecureApi {
 
   constructor(baseUrl: string, accessToken: string) {
     super(baseUrl, accessToken);
-    this.controller = 'income';
+    this.controller = "income";
   }
 
   create(amount: number, note: string, currencyId: string, categoryId: string) {
     const body = JSON.stringify({
-      data: { amount, note, currencyId, categoryId },
+      data: { amount, note, currencyId, categoryId, recordType: "Income" },
     });
 
     return super.buildCall(
       `${this.baseUrl}/${this.controller}/create`,
-      'POST',
+      "POST",
       body,
       this.getAuthorizationHeader()
     );
@@ -34,7 +35,7 @@ export class Income extends SecureApi {
   get() {
     return super.buildCall<Array<Income>>(
       `${this.baseUrl}/${this.controller}/my`,
-      'GET',
+      "GET",
       undefined,
       this.getAuthorizationHeader()
     );
