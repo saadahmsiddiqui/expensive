@@ -1,9 +1,16 @@
-import { Button, NumberInput, Select, TextInput } from '@mantine/core';
-import { Modal } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useApi } from '../context/expensive';
-import { Currency } from '../lib/expensive/currencies';
-import { Category } from '../lib/expensive';
+import { Button, NumberInput, Select, TextInput } from "@mantine/core";
+import { Modal } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useApi } from "../context/expensive";
+import { Currency } from "../lib/expensive/currencies";
+import { Category } from "../lib/expensive";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
+
+const TOAST_MESSAGES = {
+  loading: "Creating expense...",
+  success: "Created expense.",
+};
 
 export function CreateExpenseModal({
   opened,
@@ -19,12 +26,12 @@ export function CreateExpenseModal({
   const { expenses } = useApi();
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
       amount: 0,
-      category: '',
-      currency: '',
-      note: '',
+      category: "",
+      currency: "",
+      note: "",
     },
 
     validate: {
@@ -35,21 +42,29 @@ export function CreateExpenseModal({
     },
   });
 
-  const onSubmit = (
-    amount: number,
-    note: string,
-    currency: string,
-    category: string
-  ) => {
-    const currencyId = currencies.find((c) => c.name === currency)?.id;
-    const categoryId = categories.find((c) => c.name === category)?.id;
+  const onCreation = useCallback(() => {
+    form.reset();
+    close();
+    return TOAST_MESSAGES.success;
+  }, [expenses]);
 
-    expenses
-      ?.create(amount, note, currencyId!, categoryId!)
-      .then(console.log)
-      .catch(console.log)
-      .finally(close);
-  };
+  const onSubmit = useCallback(
+    (amount: number, note: string, currency: string, category: string) => {
+      if (expenses) {
+        const currencyId = currencies.find((c) => c.name === currency)?.id;
+        const categoryId = categories.find((c) => c.name === category)?.id;
+
+        if (categoryId && currencyId) {
+          toast.promise(expenses.create(amount, note, currencyId, categoryId), {
+            loading: TOAST_MESSAGES.loading,
+            error: (err) => err.message,
+            success: onCreation,
+          });
+        }
+      }
+    },
+    [expenses, categories, currencies]
+  );
 
   return (
     <Modal
@@ -88,17 +103,17 @@ export function CreateExpenseModal({
           description="Enter amount"
           value={form.getValues().amount}
           placeholder="e.g 1.23"
-          {...form.getInputProps('amount')}
+          {...form.getInputProps("amount")}
         />
 
         <TextInput
-          key={form.key('note')}
+          key={form.key("note")}
           label="Note"
           placeholder="e.g Payment for dinner"
-          {...form.getInputProps('note')}
+          {...form.getInputProps("note")}
         ></TextInput>
 
-        <Button color="orange.6" type="submit" mt={10} w={'100%'}>
+        <Button color="orange.6" type="submit" mt={10} w={"100%"}>
           Create
         </Button>
       </form>
