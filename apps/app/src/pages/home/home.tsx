@@ -86,6 +86,7 @@ export function Home() {
         display: "flex",
         justifyContent: "center",
       }}
+      mih={"100vh"}
     >
       <CreateCurrencyModal
         opened={openedCurrencyModal}

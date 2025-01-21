@@ -1,6 +1,15 @@
 import { Modal, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useApi } from "../context/expensive";
+import { toast } from "react-hot-toast";
+import { useCallback } from "react";
+
+const TOAST_MESSASGES = {
+  loading: "Creating a category...",
+  success: "Succesfully created a category.",
+};
+
+const CREATE_CATEGORY_NAME_PLACEHOLDER = "Food, Groceries";
 
 export function CreateCategoryModal({
   opened,
@@ -16,26 +25,31 @@ export function CreateCategoryModal({
     initialValues: {
       name: "",
     },
-
     validate: {
       name: (value) => value.length <= 0,
     },
   });
 
-  // TODO: add icon support for category
-  const icon = "";
-  const onSubmit = (name: string) => {
-    categories!
-      .create(name, icon)
-      .then((response) => {
-        form.reset();
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err.message);
-      })
-      .finally(() => close());
-  };
+  const onCreation = useCallback(() => {
+    form.reset();
+    close();
+    return TOAST_MESSASGES.success;
+  }, [form]);
+
+  const onSubmit = useCallback(
+    (name: string) => {
+      if (categories) {
+        // TODO: add icon support for category
+        const icon = "";
+        toast.promise(categories?.create(name, icon), {
+          loading: TOAST_MESSASGES.loading,
+          success: onCreation,
+          error: (err) => err.message,
+        });
+      }
+    },
+    [categories, onCreation]
+  );
 
   return (
     <Modal
@@ -48,7 +62,7 @@ export function CreateCategoryModal({
         <TextInput
           key={form.key("name")}
           label="Category name"
-          placeholder="Ethereum"
+          placeholder={CREATE_CATEGORY_NAME_PLACEHOLDER}
           {...form.getInputProps("name")}
         />
 

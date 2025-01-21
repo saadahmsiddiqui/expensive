@@ -6,6 +6,8 @@ import "@mantine/core/styles.css";
 import Login from "./pages/login/login";
 import Home from "./pages/home/home";
 import { ExpensiveApiProvider } from "./context/expensive";
+import { Toaster } from "react-hot-toast";
+import { DEFAULT_TOAST_OPTIONS } from "./config/toast";
 
 const theme = createTheme({
   /** Put your mantine theme override here */
@@ -23,6 +25,7 @@ root.render(
             <Route path="/" element={<Login />} />
             <Route path="/home" element={<Home />} />
           </Routes>
+          <Toaster {...DEFAULT_TOAST_OPTIONS} />
         </MantineProvider>
       </ExpensiveApiProvider>
     </BrowserRouter>
