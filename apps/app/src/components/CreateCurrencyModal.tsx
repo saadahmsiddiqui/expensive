@@ -1,6 +1,16 @@
 import { Modal, TextInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useApi } from "../context/expensive";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
+
+const TOAST_MESSASGES = {
+  loading: "Adding currency...",
+  success: "Succesfully added currency.",
+};
+
+const CREATE_CURRENCY_NAME_PLACEHOLDER = "Ethereum";
+const CREATE_CURRENCY_SYMBOL_PLACEHOLDER = "ETH";
 
 export function CreateCurrencyModal({
   opened,
@@ -24,18 +34,24 @@ export function CreateCurrencyModal({
     },
   });
 
-  const onSubmit = (name: string, symbol: string) => {
-    currencies!
-      .create(name, symbol)
-      .then((response) => {
-        console.log(response);
-        form.reset();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => close());
-  };
+  const onCreation = useCallback(() => {
+    form.reset();
+    close();
+    return TOAST_MESSASGES.success;
+  }, [form]);
+
+  const onSubmit = useCallback(
+    (name: string, symbol: string) => {
+      if (currencies) {
+        toast.promise(currencies.create(name, symbol), {
+          loading: TOAST_MESSASGES.loading,
+          success: onCreation,
+          error: (err) => err.message,
+        });
+      }
+    },
+    [currencies]
+  );
 
   return (
     <Modal
@@ -50,13 +66,13 @@ export function CreateCurrencyModal({
         <TextInput
           key={form.key("name")}
           label="Currency name"
-          placeholder="Ethereum"
+          placeholder={CREATE_CURRENCY_NAME_PLACEHOLDER}
           {...form.getInputProps("name")}
         />
         <TextInput
           key={form.key("symbol")}
           label="Currency Symbol"
-          placeholder="ETH"
+          placeholder={CREATE_CURRENCY_SYMBOL_PLACEHOLDER}
           {...form.getInputProps("symbol")}
         ></TextInput>
 
