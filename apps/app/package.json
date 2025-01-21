@@ -1,7 +1,8 @@
 {
   "name": "@expensive/app",
   "scripts": {
-    "build": "yarn vite build"
+    "build": "yarn vite build",
+    "start:dev": "yarn vite"
   },
   "dependencies": {
     "@mantine/core": "^7.14.1",

@@ -33,3 +33,11 @@ Expensive is a free and open source expense manager app build using MERN stack w
   yarn workspace @expensive/api prisma:generate
   yarn workspace @expensive/api prisma:migrate
   ```
+- Start server
+  ```sh
+  yarn workspace @expensive/api start:dev
+  ```
+- Start front end
+  ```sh
+  yarn workspace @expensive/app start:dev
+  ```
