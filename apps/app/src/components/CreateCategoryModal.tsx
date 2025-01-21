@@ -4,7 +4,7 @@ import { useApi } from "../context/expensive";
 import { toast } from "react-hot-toast";
 import { useCallback } from "react";
 
-const TOAST_MESSASGES = {
+const TOAST_MESSAGES = {
   loading: "Creating a category...",
   success: "Succesfully created a category.",
 };
@@ -33,7 +33,7 @@ export function CreateCategoryModal({
   const onCreation = useCallback(() => {
     form.reset();
     close();
-    return TOAST_MESSASGES.success;
+    return TOAST_MESSAGES.success;
   }, [form]);
 
   const onSubmit = useCallback(
@@ -42,7 +42,7 @@ export function CreateCategoryModal({
         // TODO: add icon support for category
         const icon = "";
         toast.promise(categories?.create(name, icon), {
-          loading: TOAST_MESSASGES.loading,
+          loading: TOAST_MESSAGES.loading,
           success: onCreation,
           error: (err) => err.message,
         });

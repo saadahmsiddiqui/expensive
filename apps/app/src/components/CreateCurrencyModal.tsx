@@ -4,7 +4,7 @@ import { useApi } from "../context/expensive";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 
-const TOAST_MESSASGES = {
+const TOAST_MESSAGES = {
   loading: "Adding currency...",
   success: "Succesfully added currency.",
 };
@@ -37,14 +37,14 @@ export function CreateCurrencyModal({
   const onCreation = useCallback(() => {
     form.reset();
     close();
-    return TOAST_MESSASGES.success;
+    return TOAST_MESSAGES.success;
   }, [form]);
 
   const onSubmit = useCallback(
     (name: string, symbol: string) => {
       if (currencies) {
         toast.promise(currencies.create(name, symbol), {
-          loading: TOAST_MESSASGES.loading,
+          loading: TOAST_MESSAGES.loading,
           success: onCreation,
           error: (err) => err.message,
         });
