@@ -1,11 +1,10 @@
 {
-  "name": "root",
-  "packageManager": "yarn@4.3.1",
-  "workspaces": [
-    "apps/*"
-  ],
-  "devDependencies": {
-    "@nestjs/cli": "^10.4.8",
-    "@nestjs/schematics": "^10.2.3"
-  }
+  "name": "expensive",
+  "version": "1.0.0",
+  "description": "Mono repo for expensive web application",
+  "main": "index.js",
+  "repository": "https://github.com/saadahmsiddiqui/expensive.git",
+  "author": "Saad Ahmed Siddiqui",
+  "license": "MIT",
+  "private": true
 }
