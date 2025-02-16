@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/saadahmsiddiqui/expensive/server/models"
+	"github.com/saadahmsiddiqui/expensive/migrations/models"
 	"github.com/uptrace/bun"
 )
 
