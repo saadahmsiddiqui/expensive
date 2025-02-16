@@ -10,12 +10,12 @@ import (
 
 func init() {
 	Migrations.MustRegister(func(ctx context.Context, db *bun.DB) error {
-		db.NewCreateTable().Model((*models.Record)(nil)).Exec(ctx)
-		fmt.Print(" [up migration] ")
+		_, err := db.NewCreateTable().Model((*models.Record)(nil)).Exec(ctx)
+		fmt.Printf(" [up migration] %s", err)
 		return nil
 	}, func(ctx context.Context, db *bun.DB) error {
-		db.ResetModel(ctx, (*models.Record)(nil))
-		fmt.Print(" [down migration] ")
+		_, err := db.NewDropTable().Model((*models.Record)(nil)).Exec(ctx)
+		fmt.Printf(" [down migration] %s", err)
 		return nil
 	})
 }

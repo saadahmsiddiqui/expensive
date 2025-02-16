@@ -1,9 +1,15 @@
 package models
 
-import "github.com/google/uuid"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Record struct {
-	ID     uuid.UUID `bun:"type:uuid,default:uuid_generate_v4()"`
-	amount float64
-	note   string
+	ID        uuid.UUID `bun:"type:uuid,default:uuid_generate_v4(),pk"`
+	Amount    float64
+	Note      string
+	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 }

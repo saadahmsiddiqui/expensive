@@ -19,7 +19,7 @@ func ConnectDB() *bun.DB {
 		return DbConnection.bunPg
 	}
 
-	dsn := "postgres://expensive:expensive@localhost:5432/expensive?sslmode=disable"
+	dsn := "postgres://postgres:expensive@localhost:5432/expensive?sslmode=disable"
 	// dsn := "unix://user:pass@dbname/var/run/postgresql/.s.PGSQL.5432"
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 
