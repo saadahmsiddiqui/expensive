@@ -1,28 +1,21 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
 	"strings"
 
-	"github.com/uptrace/bun/example/migrate/migrations"
+	"github.com/saadahmsiddiqui/expensive/migrations/migrations"
+	"github.com/saadahmsiddiqui/expensive/server/repository"
 	"github.com/uptrace/bun/extra/bundebug"
 	"github.com/uptrace/bun/migrate"
 
 	"github.com/urfave/cli/v2"
-
-	"github.com/uptrace/bun"
 )
 
 func main() {
-	sqldb, err := sql.Open(sqliteshim.ShimName, "file:test.s3db?cache=shared")
-	if err != nil {
-		panic(err)
-	}
-
-	db := bun.NewDB(sqldb, sqlitedialect.New())
+	db := repository.ConnectDB()
 	db.AddQueryHook(bundebug.NewQueryHook(
 		bundebug.WithEnabled(false),
 		bundebug.FromEnv(),
