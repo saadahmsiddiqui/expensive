@@ -3,7 +3,6 @@ module github.com/saadahmsiddiqui/expensive/migrations
 go 1.22.2
 
 require (
-	github.com/google/uuid v1.6.0
 	github.com/uptrace/bun v1.2.9
 	github.com/uptrace/bun/dialect/pgdialect v1.2.9
 	github.com/uptrace/bun/driver/pgdriver v1.2.9
