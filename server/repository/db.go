@@ -9,14 +9,14 @@ import (
 )
 
 type DatabaseConnection struct {
-	bunPg *bun.DB
+	BunPg *bun.DB
 }
 
 var DbConnection *DatabaseConnection
 
 func ConnectDB() *bun.DB {
 	if DbConnection != nil {
-		return DbConnection.bunPg
+		return DbConnection.BunPg
 	}
 
 	dsn := "postgres://postgres:expensive@localhost:5432/expensive?sslmode=disable"
@@ -29,5 +29,5 @@ func ConnectDB() *bun.DB {
 		db,
 	}
 
-	return DbConnection.bunPg
+	return DbConnection.BunPg
 }

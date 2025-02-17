@@ -11,5 +11,6 @@ func main() {
 	repository.ConnectDB()
 	r := gin.Default()
 	routes.RegisterExpensesRoutes(r)
+	routes.RegisterUsersRoutes(r)
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
