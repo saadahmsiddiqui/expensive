@@ -19,13 +19,15 @@ type CreateCurrencyDto struct {
 
 func CreateCurrency(ctx *gin.Context) {
 	var newCurrency CreateCurrencyDto
-	err := ctx.BindJSON(newCurrency)
+	err := ctx.BindJSON(&newCurrency)
 
 	if err != nil {
 		ctx.JSON(
 			http.StatusBadRequest,
 			gin.H{"message": "Invalid payload or request"},
 		)
+
+		return
 	}
 
 	if repository.DbConnection == nil {
@@ -33,6 +35,8 @@ func CreateCurrency(ctx *gin.Context) {
 			http.StatusInternalServerError,
 			gin.H{"message": "Unable to serve request at this time"},
 		)
+
+		return
 	}
 
 	createdBy, err := uuid.Parse(newCurrency.CreatedBy)
@@ -42,6 +46,7 @@ func CreateCurrency(ctx *gin.Context) {
 			http.StatusInternalServerError,
 			gin.H{"message": "Unable to serve request at this time"},
 		)
+		return
 	}
 
 	newId, err := uuid.NewRandom()
@@ -51,6 +56,7 @@ func CreateCurrency(ctx *gin.Context) {
 			http.StatusInternalServerError,
 			gin.H{"message": "Unable to serve request at this time"},
 		)
+		return
 	}
 
 	currency := model.Currency{
