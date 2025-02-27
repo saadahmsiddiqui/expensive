@@ -7,4 +7,5 @@ import (
 
 func RegisterCurrenciesRoutes(router *gin.Engine) {
 	router.POST("/currencies", currencies.CreateCurrency)
+	router.GET("/currency/:id", currencies.GetById)
 }

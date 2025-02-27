@@ -1,14 +1,11 @@
 package currencies
 
 import (
-	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/saadahmsiddiqui/expensive/server/model"
-	"github.com/saadahmsiddiqui/expensive/server/repository"
+	"github.com/saadahmsiddiqui/expensive/server/services/currencies"
 )
 
 type CreateCurrencyDto struct {
@@ -30,15 +27,6 @@ func CreateCurrency(ctx *gin.Context) {
 		return
 	}
 
-	if repository.DbConnection == nil {
-		ctx.JSON(
-			http.StatusInternalServerError,
-			gin.H{"message": "Unable to serve request at this time"},
-		)
-
-		return
-	}
-
 	createdBy, err := uuid.Parse(newCurrency.CreatedBy)
 
 	if err != nil {
@@ -49,38 +37,15 @@ func CreateCurrency(ctx *gin.Context) {
 		return
 	}
 
-	newId, err := uuid.NewRandom()
+	currency, err := currencies.CreateCurrency(newCurrency.Name, &createdBy, newCurrency.Symbol)
 
 	if err != nil {
-		ctx.JSON(
-			http.StatusInternalServerError,
+		ctx.JSON(http.StatusInternalServerError,
 			gin.H{"message": "Unable to serve request at this time"},
 		)
+
 		return
 	}
 
-	currency := model.Currency{
-		ID:           &newId,
-		CurrencyName: newCurrency.Name,
-		CreatedBy:    &createdBy,
-		Symbol:       newCurrency.Symbol,
-	}
-
-	db := repository.DbConnection.BunPg
-	res, err := db.NewInsert().Model(&currency).Exec(context.Background())
-
-	if err != nil {
-		fmt.Printf("creating entity error: %s", err.Error())
-		ctx.IndentedJSON(
-			http.StatusInternalServerError,
-			gin.H{"message": "server cannot create a new entity"},
-		)
-		return
-	}
-
-	id, err := res.LastInsertId()
-	fmt.Printf("Error %s", err)
-	message := fmt.Sprintf("successfully created %d", id)
-
-	ctx.IndentedJSON(http.StatusCreated, message)
+	ctx.IndentedJSON(http.StatusCreated, currency)
 }

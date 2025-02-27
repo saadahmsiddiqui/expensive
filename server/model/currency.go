@@ -11,7 +11,7 @@ type Currency struct {
 	bun.BaseModel `bun:"table:currencies"`
 	ID            *uuid.UUID `bun:"id,pk"`
 	CurrencyName  string     `bun:"currencyname,notnull"`
-	Symbol        string     `bun:"symbol,lastname,notnull"`
+	Symbol        string     `bun:"symbol,notnull"`
 	CreatedAt     time.Time  `bun:"createdat,default:current_timestamp"`
 	CreatedBy     *uuid.UUID `bun:"createdby,notnull"`
 	Creator       *User      `bun:"rel:belongs-to,join:createdby=id"`
