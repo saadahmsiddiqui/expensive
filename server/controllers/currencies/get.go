@@ -1,6 +1,7 @@
 package currencies
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -43,5 +44,23 @@ func GetById(ctx *gin.Context) {
 		http.StatusOK,
 		curr,
 	)
+
+}
+
+func GetAll(ctx *gin.Context) {
+
+	list, err := currencies.GetCurrencies()
+
+	if err != nil {
+		ctx.JSON(
+			http.StatusInternalServerError,
+			gin.H{"message": fmt.Errorf("%s", err)},
+		)
+
+		return
+	}
+
+	ctx.JSON(http.StatusOK, list)
+	return
 
 }
