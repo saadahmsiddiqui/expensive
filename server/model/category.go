@@ -13,5 +13,7 @@ type Category struct {
 	Name          string     `bun:"categoryname,notnull"`
 	CreatedAt     time.Time  `bun:"createdat,default:current_timestamp"`
 	CreatedBy     *uuid.UUID `bun:"createdby,notnull"`
+	ParentId      *uuid.UUID `bun:"parent,"`
 	Creator       *User      `bun:"rel:belongs-to,join:createdby=id"`
+	Parent        *Category  `bun:"rel:belongs-to,join:parent=id"`
 }
