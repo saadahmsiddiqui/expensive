@@ -7,5 +7,6 @@ import (
 
 func RegisterCategoryRoutes(router *gin.Engine) {
 	router.POST("/category", categories.CreateCategory)
+	router.GET("/category/:id", categories.GetById)
 	router.GET("/categories", categories.GetAll)
 }

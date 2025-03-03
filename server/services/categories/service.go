@@ -56,3 +56,49 @@ func GetAll() (*[]model.Category, error) {
 
 	return &data, nil
 }
+
+func GetById(id *uuid.UUID) (*model.Category, error) {
+	if repository.DbConnection == nil {
+		return nil, errors.New("database connection unavailable")
+	}
+
+	var data model.Category
+
+	db := repository.DbConnection.BunPg
+	err := db.NewSelect().Model(&data).Where("id = ?", &id).Scan(context.Background())
+
+	if err != nil {
+		return nil, errors.New("could not find category with id " + id.String())
+	}
+
+	return &data, nil
+}
+
+func Create(name string, createdBy *uuid.UUID, parent *uuid.UUID) (*model.Category, error) {
+	if repository.DbConnection == nil {
+		return nil, errors.New("database connection unavailable")
+	}
+
+	randId, errCreatingId := uuid.NewRandom()
+
+	if errCreatingId != nil {
+		return nil, errors.New("error creating a new id " + errCreatingId.Error())
+	}
+
+	newCat := model.Category{
+		ID:        &randId,
+		Name:      name,
+		CreatedBy: createdBy,
+		ParentId:  parent,
+	}
+
+	db := repository.DbConnection.BunPg
+	_, err := db.NewInsert().Model(&newCat).Exec(context.Background())
+
+	if err != nil {
+		return nil, errors.New("unable to create category " + err.Error())
+	}
+
+	return &newCat, nil
+
+}
