@@ -11,6 +11,7 @@ func main() {
 	repository.ConnectDB()
 	r := gin.Default()
 	routes.RegisterExpensesRoutes(r)
+	routes.RegisterAuthRoutes(r)
 	routes.RegisterCurrenciesRoutes(r)
 	routes.RegisterUsersRoutes(r)
 	routes.RegisterCategoryRoutes(r)
