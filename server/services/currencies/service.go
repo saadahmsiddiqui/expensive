@@ -73,3 +73,20 @@ func GetCurrencies() (*[]model.Currency, error) {
 
 	return &curr, nil
 }
+
+func GetUserCurrencies(userId *uuid.UUID) (*[]model.Currency, error) {
+	if repository.DbConnection == nil {
+		return nil, errors.New("unable to connect to database")
+	}
+
+	var data []model.Currency
+	db := repository.DbConnection.BunPg
+
+	err := db.NewSelect().Where("createdBy = ?", &userId).Model(&data).Scan(context.Background())
+
+	if err != nil {
+		return nil, fmt.Errorf("unable to retrieve currencies %s", err)
+	}
+
+	return &data, nil
+}

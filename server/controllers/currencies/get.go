@@ -61,6 +61,31 @@ func GetAll(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, list)
-	return
+}
 
+func GetUserCurrencies(ctx *gin.Context) {
+	userIdstr := ctx.Param("id")
+	parsedId, parseIdErr := uuid.Parse(userIdstr)
+
+	if parseIdErr != nil {
+		ctx.JSON(
+			http.StatusBadRequest,
+			gin.H{"message": "unable to parse user id " + userIdstr},
+		)
+
+		return
+	}
+
+	userCurrencies, retirevalErr := currencies.GetUserCurrencies(&parsedId)
+
+	if retirevalErr != nil {
+		ctx.JSON(
+			http.StatusInternalServerError,
+			gin.H{"message": "unable to retrieve data, please try again later"},
+		)
+
+		return
+	}
+
+	ctx.JSON(http.StatusOK, userCurrencies)
 }
