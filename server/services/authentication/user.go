@@ -4,9 +4,12 @@ import (
 	"context"
 	"errors"
 
+	"encoding/hex"
+
 	"github.com/google/uuid"
 	"github.com/saadahmsiddiqui/expensive/server/model"
 	"github.com/saadahmsiddiqui/expensive/server/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type RegistrationDto struct {
@@ -14,6 +17,26 @@ type RegistrationDto struct {
 	LastName  string `json:"lastName"`
 	Password  string `json:"password"`
 	Email     string `json:"email"`
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, hashErr := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+	if hashErr != nil {
+		return "", hashErr
+	}
+
+	return hex.EncodeToString(hashedPassword), nil
+}
+
+func CheckPassword(password string, hashedPassword []byte) bool {
+	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
+
+	if err != nil {
+		return false
+	}
+
+	return true
 }
 
 func RegisterUser(registrationInfo *RegistrationDto) (*model.User, error) {
