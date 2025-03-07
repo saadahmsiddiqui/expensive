@@ -10,7 +10,7 @@ import (
 func RegisterNewUser(ctx *gin.Context) {
 
 	var data authentication.RegistrationDto
-	bindErr := ctx.BindJSON(data)
+	bindErr := ctx.BindJSON(&data)
 
 	if bindErr != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "bad request, please check payload"})
