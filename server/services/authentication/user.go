@@ -3,6 +3,7 @@ package authentication
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"encoding/hex"
 
@@ -59,6 +60,13 @@ func RegisterUser(registrationInfo *RegistrationDto) (*model.User, error) {
 		ID:        &newId,
 	}
 
+	userPassword, hashErr := HashPassword(registrationInfo.Password)
+
+	if hashErr != nil {
+		return nil, errors.New("cannot process this request")
+	}
+
+	fmt.Print("hashed password: ", userPassword)
 	_, insertionError := db.NewInsert().Model(&newUser).Exec(context.Background())
 
 	if insertionError != nil {
