@@ -13,5 +13,6 @@ type User struct {
 	FirstName     string     `bun:"firstname,notnull"`
 	LastName      string     `bun:"lastname,notnull"`
 	Email         string     `bun:"email,notnull"`
+	Password      []byte     `bun:"password,notnull"`
 	CreatedAt     time.Time  `bun:"createdat,default:current_timestamp"`
 }
