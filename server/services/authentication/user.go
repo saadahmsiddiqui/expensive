@@ -27,16 +27,6 @@ func HashPassword(password string) ([]byte, error) {
 	return hashedPassword, nil
 }
 
-func CheckPassword(password string, hashedPassword []byte) bool {
-	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
-
-	if err != nil {
-		return false
-	}
-
-	return true
-}
-
 func RegisterUser(registrationInfo *RegistrationDto) (*model.User, error) {
 
 	if repository.DbConnection == nil {
@@ -74,5 +64,3 @@ func RegisterUser(registrationInfo *RegistrationDto) (*model.User, error) {
 
 	return &newUser, nil
 }
-
-func Authenticate() {}

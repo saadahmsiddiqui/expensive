@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/saadahmsiddiqui/expensive/server/services/authentication"
+	"github.com/saadahmsiddiqui/expensive/server/services/authorization"
 )
 
 func RegisterNewUser(ctx *gin.Context) {
@@ -25,4 +26,36 @@ func RegisterNewUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, newUser)
+}
+
+type LoginDto struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func LoginUser(ctx *gin.Context) {
+
+	var loginData LoginDto
+
+	bindErr := ctx.BindJSON(&loginData)
+
+	if bindErr != nil {
+
+		ctx.JSON(
+			http.StatusBadRequest,
+			gin.H{"message": bindErr.Error()},
+		)
+		return
+	}
+
+	authorizedUser, authorizationErr := authorization.AuthorizeUser(loginData.Email, loginData.Password)
+
+	if authorizationErr != nil {
+		ctx.JSON(
+			http.StatusForbidden,
+			gin.H{"message": authorizationErr.Error()},
+		)
+	}
+
+	ctx.JSON(http.StatusOK, authorizedUser)
 }
