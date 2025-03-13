@@ -51,10 +51,8 @@ func LoginUser(ctx *gin.Context) {
 	authorizedUser, authorizationErr := authorization.AuthorizeUser(loginData.Email, loginData.Password)
 
 	if authorizationErr != nil {
-		ctx.JSON(
-			http.StatusForbidden,
-			gin.H{"message": authorizationErr.Error()},
-		)
+		ctx.JSON(http.StatusForbidden, gin.H{"message": authorizationErr.Error()})
+		return
 	}
 
 	ctx.JSON(http.StatusOK, authorizedUser)

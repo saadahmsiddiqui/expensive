@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/saadahmsiddiqui/expensive/server/model"
 	"github.com/saadahmsiddiqui/expensive/server/repository"
 	"golang.org/x/crypto/bcrypt"
@@ -19,9 +20,9 @@ func CheckPassword(password string, hashedPassword []byte) bool {
 	return true
 }
 
-func AuthorizeUser(email string, password string) (*model.User, error) {
+func AuthorizeUser(email string, password string) (string, error) {
 	if repository.DbConnection == nil {
-		return nil, errors.New("database connection error")
+		return "", errors.New("database connection error")
 	}
 
 	db := repository.DbConnection.BunPg
@@ -30,14 +31,25 @@ func AuthorizeUser(email string, password string) (*model.User, error) {
 	err := db.NewSelect().Model(&user).Where("email = ?", email).Scan(context.Background())
 
 	if err != nil {
-		return nil, errors.New("user does not exist")
+		return "", errors.New("user does not exist")
 	}
 
 	isCorrectPassword := CheckPassword(password, user.Password)
 
 	if !isCorrectPassword {
-		return nil, errors.New("incorrect password")
+		return "", errors.New("incorrect password")
 	}
 
-	return &user, nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user": user.ID,
+	})
+
+	// TODO: improve secret signing
+	tokenString, tokenStringErr := token.SignedString([]byte("S@adJhk123"))
+
+	if tokenStringErr != nil {
+		return "", tokenStringErr
+	}
+
+	return tokenString, nil
 }
